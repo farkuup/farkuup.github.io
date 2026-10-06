@@ -89,3 +89,4 @@ p code, li code { font-size: .9em; background: var(--card); border: 1px solid va
 .page ul.plain li { margin-bottom: 6px; }
 .timeline.days li { grid-template-columns: 90px 1fr; }
 .page .timeline p { font-size: 16px; }
+figure video { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; background: #000; }

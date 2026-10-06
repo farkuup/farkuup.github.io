@@ -15,6 +15,8 @@
   <p class="lead">Des LED derrière la télé qui reprennent en direct les couleurs de l'image, comme le système Ambilight de Philips. Je l'ai conçu, acheté, câblé et réparé moi-même, pour environ 93 €.</p>
   <ul class="tags big"><li>Raspberry Pi 3 B+</li><li>Hyperion</li><li>LED APA102</li><li>HDMI</li><li>Linux</li></ul>
 
+  <figure><video src="videos/ambilight.mp4" poster="images/ambi-video-cover.jpg" controls muted playsinline preload="metadata"></video><figcaption>L'Ambilight en marche : les LED suivent les couleurs des bords de l'image.</figcaption></figure>
+
   <h2>Le principe</h2>
   <p>Le signal HDMI de la console passe par un <b>splitter</b> : une sortie va à la télé, l'autre à une <b>carte d'acquisition</b> branchée en USB sur le Raspberry Pi. Le logiciel <b>Hyperion</b> analyse les bords de l'image et envoie la bonne couleur à chaque LED du bandeau collé derrière la télé.</p>
   <figure><img src="images/ambi-plan.jpg" alt="Plan du montage dessiné dans mon carnet : console, splitter, carte d'acquisition, Raspberry Pi, télé et alimentation" loading="lazy"><figcaption>Le plan du montage, dans mon carnet.</figcaption></figure>
