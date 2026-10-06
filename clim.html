@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Ventileau · Soméan Yoyotte</title>
+<meta name="description" content="Le Ventileau : un rafraîchisseur d'air adiabatique piloté par Arduino, projet de SI de Terminale pour les Olympiades de SI.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page">
+<main class="wrap narrow">
+  <a class="back" href="index.html">← Tous les projets</a>
+  <p class="kicker">Projet de SI · Terminale · Olympiades de SI · Non terminé</p>
+  <h1>Le Ventileau</h1>
+  <p class="lead">Une clim écologique qui refroidit l'air en faisant évaporer de l'eau, pilotée par un Arduino. Un projet d'équipe à trois, autour d'une question simple : comment rafraîchir sans réchauffer ?</p>
+  <ul class="tags big"><li>Arduino Uno</li><li>DHT11</li><li>Driver moteur</li><li>SysML</li><li>Mesures électriques</li><li>Travail d'équipe</li></ul>
+
+  <h2>Le problème</h2>
+  <p>Une climatisation classique refroidit une pièce en rejetant de la chaleur dehors, et consomme beaucoup d'électricité. Dans les pays très chauds, comme l'Inde, plus il y a de clims, plus les villes chauffent. Les rafraîchisseurs vendus pour la maison, entre 70 et 250 €, sont souvent bruyants et peu efficaces. On voulait un appareil compact, branché sur secteur, qui refroidit sans rejeter de chaleur.</p>
+
+  <h2>Le principe adiabatique</h2>
+  <p>Une pompe arrose un <b>tampon</b> avec l'eau d'un réservoir. Un ventilateur pousse l'air chaud et sec à travers ce tampon. En s'évaporant, l'eau absorbe de la chaleur : l'air ressort plus frais et un peu plus humide. Pas de gaz réfrigérant, pas de compresseur.</p>
+  <figure><img src="images/clim-principe.jpg" alt="Schéma du système adiabatique : pompe à eau, tampon imbibé, ventilation, réservoir d'eau, air chaud sec en entrée et air frais humidifié en sortie" loading="lazy"><figcaption>Le principe, tiré de notre présentation.</figcaption></figure>
+
+  <h2>Le cahier des charges</h2>
+  <table>
+    <tr><th>Fonction</th><th>Ce que l'appareil doit faire</th></tr>
+    <tr><td>F1</td><td>Générer de l'air froid</td></tr>
+    <tr><td>F2</td><td>Se brancher sur le secteur</td></tr>
+    <tr><td>F3</td><td>Être compact</td></tr>
+    <tr><td>F4</td><td>Récolter des informations sur son environnement (température, humidité)</td></tr>
+    <tr><td>F5</td><td>Être étanche</td></tr>
+  </table>
+
+  <h2>L'architecture</h2>
+  <p>L'eau descend d'un égouttoir dans le tampon puis dans une bassine de 500 mL, et une pompe la remonte. Le ventilateur souffle l'air chaud à travers le tampon vers la pièce. La carte Arduino lit les capteurs de température, d'humidité et de niveau d'eau, et commande le ventilateur, la pompe et des LED. Nous avons aussi décrit le système en <b>SysML</b> : cas d'utilisation, exigences et diagramme de blocs internes.</p>
+  <figure><img src="images/clim-architecture.jpg" alt="Schéma d'architecture : égouttoir, tampon, bassine de 500 mL, ventilateur, pompe, capteur de niveau, capteurs de température et d'humidité, LED et carte Arduino" loading="lazy"><figcaption>L'architecture du Ventileau.</figcaption></figure>
+
+  <h2>Mesurer le moteur du ventilateur</h2>
+  <p>Avant de choisir l'hélice, on a caractérisé le petit moteur au multimètre. Pour 5 V envoyés, on mesurait 4,22 V à ses bornes et 135 mA à l'ampèremètre :</p>
+  <p class="formula">P = U × I = 4,22 V × 0,135 A ≈ 0,57 W</p>
+  <p>Au tachymètre, il tournait à 975 tr/min sous 1,5 V, et il devenait bruyant à partir de 6 V. C'est ce qui a fixé la plage de tension utile pour le ventilateur.</p>
+
+  <h2>Le montage</h2>
+  <p>Le prototype électronique : une carte Arduino Uno, le capteur DHT11 sur une plaque d'essai, un driver moteur double (moteur A pour l'hélice, moteur B pour la pompe) et un potentiomètre pour régler la vitesse du ventilateur.</p>
+  <div class="gallery">
+    <figure><img src="images/clim.jpg" alt="Montage du prototype : carte Arduino Uno, plaque d'essai avec capteur, driver moteur et potentiomètre" loading="lazy"><figcaption>La carte Arduino, le capteur et le driver.</figcaption></figure>
+    <figure><img src="images/clim-montage.jpg" alt="Autre vue du montage électronique du Ventileau" loading="lazy"><figcaption>Le câblage en cours.</figcaption></figure>
+  </div>
+
+  <h2>Le code</h2>
+  <p>Le programme lit la température et l'humidité toutes les 10 secondes et les affiche sur le port série, puis règle la vitesse de l'hélice en PWM selon la position du potentiomètre :</p>
+<pre><code>Pot = analogRead(A0);                 // potentiomètre : 0 à 1023
+Val_led = map(Pot, 0, 1023, 0, 255);  // ramené à 0 à 255
+analogWrite(ENA, Val_led);            // vitesse de l'hélice en PWM</code></pre>
+  <div class="issues">
+    <div><h3>Avec le recul</h3><p>En relisant mon code aujourd'hui, j'y vois plusieurs erreurs. La condition <code>if ('dht.readTemperature &gt; 25.00')</code> compare un caractère entre guillemets et non la température, elle est donc toujours vraie. La broche du capteur était aussi déclarée en sortie, et la pompe (moteur B) n'était jamais commandée. Aujourd'hui j'écrirais <code>if (dht.readTemperature() &gt; 25.0)</code> et je piloterais la pompe selon le niveau d'eau.</p></div>
+  </div>
+
+  <h2>Les tests prévus</h2>
+  <ul class="plain">
+    <li>Dans une boîte de 1 m³ à 25 °C, faire baisser la température de 5 °C en une heure, puis passer en mode économie.</li>
+    <li>Relever la température toutes les 10 minutes pendant ce test.</li>
+    <li>Rester sous 40 dB de bruit.</li>
+    <li>Mesurer l'effet de la température de l'eau sur le refroidissement.</li>
+  </ul>
+
+  <h2>Pourquoi il n'est pas fini</h2>
+  <p>Beaucoup de séances de SI sont tombées sur des jours fériés. On a eu le temps de concevoir le système, de mesurer le moteur et de faire tourner l'électronique, mais pas d'assembler le prototype complet ni de faire les tests. Ce projet m'a appris à écrire un cahier des charges, à modéliser un système en SysML et à mesurer avant de dimensionner.</p>
+</main>
+<footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · Soméan Yoyotte · 2026</p></footer>
+</body>
+</html>

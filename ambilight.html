@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ambilight maison · Soméan Yoyotte</title>
+<meta name="description" content="Un Ambilight fait maison avec un Raspberry Pi, Hyperion et un bandeau de LED APA102.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page">
+<main class="wrap narrow">
+  <a class="back" href="index.html">← Tous les projets</a>
+  <p class="kicker">Projet perso · Février à avril 2024 · Terminé</p>
+  <h1>Ambilight maison</h1>
+  <p class="lead">Des LED derrière la télé qui reprennent en direct les couleurs de l'image, comme le système Ambilight de Philips. Je l'ai conçu, acheté, câblé et réparé moi-même, pour environ 93 €.</p>
+  <ul class="tags big"><li>Raspberry Pi 3 B+</li><li>Hyperion</li><li>LED APA102</li><li>HDMI</li><li>Linux</li></ul>
+
+  <h2>Le principe</h2>
+  <p>Le signal HDMI de la console passe par un <b>splitter</b> : une sortie va à la télé, l'autre à une <b>carte d'acquisition</b> branchée en USB sur le Raspberry Pi. Le logiciel <b>Hyperion</b> analyse les bords de l'image et envoie la bonne couleur à chaque LED du bandeau collé derrière la télé.</p>
+  <figure><img src="images/ambi-plan.jpg" alt="Plan du montage dessiné dans mon carnet : console, splitter, carte d'acquisition, Raspberry Pi, télé et alimentation" loading="lazy"><figcaption>Le plan du montage, dans mon carnet.</figcaption></figure>
+
+  <h2>Choisir les LED</h2>
+  <p>J'ai comparé deux bandeaux courants avant d'acheter :</p>
+  <table>
+    <tr><th></th><th>APA102 (choisi)</th><th>WS2812</th></tr>
+    <tr><td>Points forts</td><td>Couleurs fidèles, se branche directement sur le Raspberry Pi</td><td>Plus lumineux, moins cher</td></tr>
+    <tr><td>Points faibles</td><td>Moins lumineux, plus cher</td><td>Couleurs moins fidèles, demande un ESP82</td></tr>
+  </table>
+
+  <h2>Dimensionner l'alimentation</h2>
+  <p>Avec 60 LED par mètre sur 2,10 m de télé, et environ 20 mA par LED :</p>
+  <p class="formula">60 × 2,10 × 20 mA ≈ 2,5 A</p>
+  <p>J'ai pris une alimentation <b>5 V / 5 A</b> pour garder une bonne marge.</p>
+
+  <h2>Le budget</h2>
+  <table>
+    <tr><td>Splitter HDMI (norme HDCP 2.2 obligatoire)</td><td class="num">9,75 €</td></tr>
+    <tr><td>Carte d'acquisition</td><td class="num">6,57 €</td></tr>
+    <tr><td>Bandeau LED APA102, 60 LED/m, IP30</td><td class="num">28,60 €</td></tr>
+    <tr><td>Alimentation 5 V 5 A</td><td class="num">10,63 €</td></tr>
+    <tr><td>Câble HDMI 2 m</td><td class="num">2,81 €</td></tr>
+    <tr><td>Adaptateur micro SD</td><td class="num">0,85 €</td></tr>
+    <tr><td>Frais de port</td><td class="num">5,97 €</td></tr>
+    <tr class="total"><td>Total</td><td class="num">63,19 €</td></tr>
+  </table>
+  <p>Plus 30 € de Raspberry Pi 3 B+ : le shield prévu pour un Raspberry Pi Zero, plus petit, n'était plus disponible.</p>
+
+  <h2>Le logiciel</h2>
+  <p>J'ai installé <b>HyperBian</b> sur la carte micro SD avec Raspberry Pi Imager, puis réglé Hyperion depuis son interface web, à l'adresse du Raspberry Pi sur le port 8090 : type de LED APA102, nombre de LED, capture USB, 60 images par seconde en 640 × 480 pour plus de fluidité.</p>
+  <figure><img src="images/ambi-hyperion.jpg" alt="Page de mon carnet sur l'installation et le paramétrage d'Hyperion" loading="lazy"><figcaption>Mes notes de paramétrage d'Hyperion.</figcaption></figure>
+
+  <h2>Ce qui n'a pas marché, et comment je l'ai réparé</h2>
+  <div class="issues">
+    <div><h3>Les LED n'étaient pas reconnues</h3><p>En théorie tout était bon, en pratique rien ne s'allumait. Après beaucoup de recherches : les câbles de données étaient inversés.</p></div>
+    <div><h3>La moitié du bandeau s'est éteinte</h3><p>Quelques semaines plus tard, seule la moitié des LED répondait. Au voltmètre, j'ai trouvé 2 LED endommagées. Je les ai découpées et remplacées par des connecteurs 4 broches à 1,85 €, au lieu de racheter tout le bandeau.</p></div>
+  </div>
+  <figure><img src="images/ambi-leds.jpg" alt="Schéma de câblage du bandeau APA102 sur le Raspberry Pi et notes sur la panne" loading="lazy"><figcaption>Le câblage du bandeau sur le Raspberry Pi, et le diagnostic de la panne.</figcaption></figure>
+
+  <h2>Le boîtier en Lego</h2>
+  <p>Les cartes étaient à nu, il fallait les protéger. J'ai comparé trois options : un boîtier imprimé en 3D (sur mesure, mais je n'ai pas d'imprimante), un boîtier acheté (simple, mais pas adapté à mes cartes) ou un boîtier en <b>Lego</b>. J'ai choisi les Lego : j'en avais déjà, et je pouvais le construire sur mesure à partir des dimensions de chaque carte. Il est fixé au mur, derrière la télé.</p>
+  <div class="gallery">
+    <figure><img src="images/ambi-boitier-ouvert.jpg" alt="Boîtier en Lego ouvert : carte d'acquisition HDMI, splitter et Raspberry Pi rangés à l'intérieur" loading="lazy"><figcaption>Ouvert : la carte d'acquisition, le splitter et le Raspberry Pi.</figcaption></figure>
+    <figure><img src="images/ambi-boitier-ferme.jpg" alt="Boîtier en Lego fermé par des plaques grises, fixé au mur" loading="lazy"><figcaption>Fermé, fixé au mur.</figcaption></figure>
+  </div>
+
+  <h2>Le carnet de bord</h2>
+  <div class="gallery">
+    <img src="images/ambi-couverture.jpg" alt="Couverture de mon carnet de bord : Setup, du 20 février au 15 avril 2024" loading="lazy">
+    <img src="images/ambi-panier.jpg" alt="Page du carnet : liste d'achats et comparaison APA102 contre WS2812" loading="lazy">
+    <img src="images/ambi-boitier.jpg" alt="Page du carnet : idées de boîtier et dimensions des cartes" loading="lazy">
+  </div>
+</main>
+<footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · Soméan Yoyotte · 2026</p></footer>
+</body>
+</html>
