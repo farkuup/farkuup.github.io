@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robot chez Pixel Robotics · Soméan Yoyotte</title>
+<meta name="description" content="Stage de 3e chez Pixel Robotics : concevoir, imprimer en 3D, câbler et programmer en cinq jours un robot piloté en Bluetooth depuis un smartphone.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page">
+<main class="wrap narrow">
+  <a class="back" href="index.html">← Tous les projets</a>
+  <p class="kicker">Stage de 3e · Du 13 au 17 décembre 2021 · Terminé</p>
+  <h1>Un robot en cinq jours chez Pixel Robotics</h1>
+  <p class="lead">Pour mon stage de 3e, Nizar Ouarti, fondateur de la start-up de robotique Pixel Robotics, m'a donné une carte Arduino Uno, une base de robot et un objectif : piloter le robot depuis mon smartphone. Le reste, je devais le modéliser, l'imprimer, le câbler et le programmer moi-même.</p>
+  <ul class="tags big"><li>Arduino Uno</li><li>C++ Arduino</li><li>Bluetooth</li><li>OpenSCAD</li><li>Impression 3D</li><li>Soudure</li></ul>
+
+  <h2>Le point de départ</h2>
+  <p>Pixel Robotics est une très petite entreprise technologique créée en 2020, qui fabrique des robots et un scanner 3D. J'avais trouvé ce stage en listant toutes les entreprises de robotique de Paris et d'Île-de-France et en rédigeant mon premier CV. Je n'avais encore jamais fait de modélisation 3D.</p>
+
+  <h2>Jour par jour</h2>
+  <ol class="timeline days">
+    <li><span>Lundi</span><p>Premier programme Arduino : faire clignoter une LED (le « Blink »). Puis installation d'<b>OpenSCAD</b> et modélisation d'un boîtier pour fixer la carte sur le robot.</p></li>
+    <li><span>Mardi</span><p>Modélisation des pieds du boîtier. Pour trouver le bon ajustement, j'ai imprimé 4 cylindres de test, avec 0,1 mm de diamètre d'écart entre chacun. Export en <code>.stl</code>, lancement de l'impression, puis début du code des moteurs.</p></li>
+    <li><span>Mercredi</span><p>Le boîtier est imprimé : nettoyage, montage sur le robot avec la carte. J'ai dessiné le plan de câblage, puis commencé le boîtier du driver qui commande les moteurs.</p></li>
+    <li><span>Jeudi</span><p>Fin de la modélisation du boîtier du driver, et suite du code moteur.</p></li>
+    <li><span>Vendredi</span><p>Câblage d'une quinzaine de fils, premier test : les moteurs tournent. Ensuite le code pour avancer, reculer et tourner, puis la réception des commandes en <b>Bluetooth</b> depuis le smartphone. Rangement des fils, vérification, test final.</p></li>
+  </ol>
+
+  <h2>Modéliser en 3D avec OpenSCAD</h2>
+  <p>OpenSCAD ne se manipule pas à la souris : on décrit chaque pièce en code, avec des cubes et des cylindres que l'on place par coordonnées. C'est ce qui m'a le plus résisté au début, et ce que j'ai fini par comprendre en persévérant.</p>
+  <div class="gallery">
+    <figure><img src="images/pixel-openscad-boitier.jpg" alt="Capture d'OpenSCAD : code et rendu du boîtier de la carte Arduino" loading="lazy"><figcaption>Le boîtier de la carte Arduino.</figcaption></figure>
+    <figure><img src="images/pixel-openscad-cylindres.jpg" alt="Capture d'OpenSCAD : quatre cylindres de diamètres légèrement différents" loading="lazy"><figcaption>Les 4 cylindres de test pour régler l'ajustement.</figcaption></figure>
+    <figure><img src="images/pixel-openscad-driver.jpg" alt="Capture d'OpenSCAD : boîtier jaune du driver moteur avec ses pieds" loading="lazy"><figcaption>Le boîtier du driver moteur.</figcaption></figure>
+    <figure><img src="images/pixel-carte.jpg" alt="Le boîtier imprimé, monté sur le robot avec la carte Arduino Uno" loading="lazy"><figcaption>Le boîtier imprimé, sur le robot.</figcaption></figure>
+  </div>
+
+  <h2>Le robot terminé</h2>
+  <p>Une carte Arduino Uno qui reçoit les commandes en Bluetooth, un driver pour les deux moteurs et une plaque d'essai, le tout sur la base à deux roues. Depuis une application sur le smartphone, on le fait avancer, reculer et tourner à gauche ou à droite.</p>
+  <div class="gallery">
+    <figure><img src="images/pixel-final-1.jpg" alt="Le robot terminé, vu de trois quarts" loading="lazy"></figure>
+    <figure><img src="images/pixel-final-2.jpg" alt="Le robot terminé, vu de côté avec le câblage" loading="lazy"></figure>
+    <figure><img src="images/pixel-main.jpg" alt="Le robot tenu dans la main, vu de côté" loading="lazy"></figure>
+    <figure><img src="images/pixel-final-3.jpg" alt="Le robot tenu dans la main, vu de l'avant avec la plaque d'essai" loading="lazy"></figure>
+  </div>
+  <p><a href="https://bit.ly/3E4rT14">Premier test des moteurs en vidéo →</a><br><a href="https://bit.ly/3sNtAxN">Le test final en vidéo →</a></p>
+
+  <h2>Ce que j'en retiens</h2>
+  <p>J'ai fait un robot de A à Z en une semaine : modélisation 3D, impression, soudure, câblage et code. J'ai aussi vu de près le métier d'ingénieur en robotique : analyser un problème, programmer, livrer du code et des rapports. C'est là que j'ai su que je voulais faire des études d'ingénieur.</p>
+</main>
+<footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · Soméan Yoyotte · 2026</p></footer>
+</body>
+</html>
