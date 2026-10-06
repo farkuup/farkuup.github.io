@@ -12,7 +12,7 @@
   <a class="back" href="index.html">← Tous les projets</a>
   <p class="kicker">Projet perso · Février à avril 2024 · Terminé</p>
   <h1>Ambilight maison</h1>
-  <p class="lead">Des LED derrière la télé qui reprennent en direct les couleurs de l'image, comme le système Ambilight de Philips. Je l'ai conçu, acheté, câblé et réparé moi-même, pour environ 93 €.</p>
+  <p class="lead">Des LED derrière la télé qui reprennent en direct les couleurs de l'image, comme le système Ambilight de Philips. Je l'ai conçu, acheté, câblé et réparé moi-même, pour 63 €.</p>
   <ul class="tags big"><li>Raspberry Pi 3 B+</li><li>Hyperion</li><li>LED APA102</li><li>HDMI</li><li>Linux</li></ul>
 
   <figure><video src="videos/ambilight.mp4" poster="images/ambi-video-cover.jpg" controls muted playsinline preload="metadata"></video><figcaption>L'Ambilight en marche : les LED suivent les couleurs des bords de l'image.</figcaption></figure>
@@ -45,7 +45,18 @@
     <tr><td>Frais de port</td><td class="num">5,97 €</td></tr>
     <tr class="total"><td>Total</td><td class="num">63,19 €</td></tr>
   </table>
-  <p>Plus 30 € de Raspberry Pi 3 B+ : le shield prévu pour un Raspberry Pi Zero, plus petit, n'était plus disponible.</p>
+  <p>J'avais déjà un Raspberry Pi 3 B+, je n'ai donc pas eu à l'acheter. Au départ, je visais un shield prévu pour un Raspberry Pi Zero, plus petit, mais il n'était plus disponible.</p>
+
+  <h2>Comparé au commerce</h2>
+  <p>Pour avoir le même effet sur une télé qui n'a pas d'Ambilight intégré, il existe des boîtiers HDMI tout faits :</p>
+  <table>
+    <tr><th>Solution</th><th class="num">Prix</th></tr>
+    <tr><td>Philips Hue Play HDMI Sync Box 8K + bandeau Hue Play Gradient 65"</td><td class="num">349,99 € + 159,99 €</td></tr>
+    <tr><td>Govee AI Sync Box Kit 2 (boîtier et bandeau)</td><td class="num">239,99 €</td></tr>
+    <tr class="total"><td>Mon Ambilight</td><td class="num">63,19 €</td></tr>
+  </table>
+  <p>Mon montage coûte environ 4 fois moins cher que le kit Govee et 8 fois moins cher que la solution Philips Hue. En échange, il m'a demandé du temps, des recherches et deux réparations.</p>
+  <p class="credit">Prix relevés en octobre 2026 sur les boutiques officielles <a href="https://www.philips-hue.com/fr-fr/p/hue-philips-hue-play-hdmi-sync-box-8k/8719514458666">Philips Hue</a> et <a href="https://eu.govee.com/products/govee-ai-sync-box-kit-2">Govee</a>.</p>
 
   <h2>Le logiciel</h2>
   <p>J'ai installé <b>HyperBian</b> sur la carte micro SD avec Raspberry Pi Imager, puis réglé Hyperion depuis son interface web, à l'adresse du Raspberry Pi sur le port 8090 : type de LED APA102, nombre de LED, capture USB, 60 images par seconde en 640 × 480 pour plus de fluidité.</p>
