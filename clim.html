@@ -49,10 +49,55 @@
   </div>
 
   <h2>Le code</h2>
-  <p>Le programme lit la température et l'humidité toutes les 10 secondes et les affiche sur le port série, puis règle la vitesse de l'hélice en PWM selon la position du potentiomètre :</p>
-<pre><code>Pot = analogRead(A0);                 // potentiomètre : 0 à 1023
-Val_led = map(Pot, 0, 1023, 0, 255);  // ramené à 0 à 255
-analogWrite(ENA, Val_led);            // vitesse de l'hélice en PWM</code></pre>
+  <p>Le programme lit la température et l'humidité toutes les 10 secondes et les affiche sur le port série, puis règle la vitesse de l'hélice en PWM selon la position du potentiomètre. Voici <code>code_final.ino</code> en entier, tel que je l'ai rendu :</p>
+<pre><code>#include "DHT.h"
+#define DHTPIN 2
+#define DHTTYPE DHT11
+DHT dht(DHTPIN, DHTTYPE);
+
+int Pot;
+int Val_led;
+int ENA = 7;
+int IN1 = 11;
+int IN2 = 10;
+int ENB = 4;
+int IN3 = 5;
+int IN4 = 3;
+
+
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(2, OUTPUT);
+  dht.begin();
+  pinMode(ENA, OUTPUT);  //Configuré moteur A donc l'hélice
+  pinMode(ENB, OUTPUT);  //Configuré moteur B donc la pompe
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);  //Sens de rotation
+
+  // Indice de commande
+  // digitalWrite(ENA/B,LOW/HIGH); =&gt; S'arrêter/S'allumer
+  // digitalWrite(IN1/2/3/4,LOW/HIGH); =&gt; Moteur direction
+}
+
+void loop() {
+  Serial.println("Temperature = " + String(dht.readTemperature()) + " °C");  //Capteur temp
+  Serial.println("Humidite = " + String(dht.readHumidity()) + " %");         //Capteur humidité
+  delay(10000);
+  if ('dht.readTemperature &gt; 25.00') {  //Si l'humidité est trop élevé, ça s'arrête
+    digitalWrite(ENA, LOW);
+    delay(1000);
+  }
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  Pot = analogRead(A0);
+  Val_led = map(Pot, 0, 1023, 0, 255);
+  Serial.println(Val_led);
+  analogWrite(ENA, Val_led);
+}
+</code></pre>
   <div class="issues">
     <div><h3>Avec le recul</h3><p>En relisant mon code aujourd'hui, j'y vois plusieurs erreurs. La condition <code>if ('dht.readTemperature &gt; 25.00')</code> compare un caractère entre guillemets et non la température, elle est donc toujours vraie. La broche du capteur était aussi déclarée en sortie, et la pompe (moteur B) n'était jamais commandée. Aujourd'hui j'écrirais <code>if (dht.readTemperature() &gt; 25.0)</code> et je piloterais la pompe selon le niveau d'eau.</p></div>
   </div>
