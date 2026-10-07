@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ambilight maison · Soméan Yoyotte</title>
 <meta name="description" content="Un Ambilight fait maison avec un Raspberry Pi, Hyperion et un bandeau de LED APA102.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body class="page">
 <main class="wrap narrow">
@@ -83,10 +81,40 @@
   <div class="notebook">
     <div class="book-stage">
       <svg class="open-hint" viewBox="0 0 200 250" aria-hidden="true">
-        <defs><clipPath id="hint-clip"><rect id="hint-clip-rect" x="0" y="-10" width="0" height="260"/></clipPath></defs>
-        <path class="hint-arrow" d="M178 92 C 182 40, 128 22, 118 58 C 110 86, 150 84, 140 50 C 128 16, 66 24, 22 84"/>
-        <path class="hint-head" d="M34 64 L 20 86 L 46 84"/>
-        <g clip-path="url(#hint-clip)"><text x="40" y="142" textLength="146" lengthAdjust="spacingAndGlyphs" transform="rotate(-7 120 150)">Cliquez pour</text><text x="68" y="182" textLength="92" lengthAdjust="spacingAndGlyphs" transform="rotate(-7 120 150)">ouvrir !</text></g>
+        <path class="hint-stroke" d="M178 92 C 182 40, 128 22, 118 58 C 110 86, 150 84, 140 50 C 128 16, 66 24, 22 84"/>
+        <path class="hint-stroke" d="M34 64 L 20 86 L 46 84"/>
+        <g transform="rotate(-7 120 150)">
+            <path class="hint-letter" d="M31.1 102.5 L31.1 103.6 L32.2 104.7 L34.4 104.7 L36.5 103.6 L37.6 101.5 L37.6 99.3 L36.5 97.1 L34.4 96.0 L31.1 96.0 L27.8 97.1 L25.6 99.3 L23.5 102.5 L22.4 104.7 L21.3 109.1 L21.3 113.5 L22.4 116.7 L23.5 117.8 L25.6 118.9 L27.8 118.9 L31.1 117.8 L33.3 115.6 L34.4 113.5"/>
+            <path class="hint-letter" d="M39.8 113.5 L42.0 110.2 L45.3 104.7 L46.4 102.5 L47.5 99.3 L47.5 97.1 L46.4 96.0 L44.2 97.1 L43.1 99.3 L42.0 103.6 L40.9 111.3 L40.9 117.8 L42.0 118.9 L43.1 118.9 L45.3 117.8 L46.4 116.7 L48.5 113.5"/>
+            <path class="hint-letter" d="M51.8 103.6 L51.8 104.7 L52.9 104.7 L52.9 103.6 L51.8 103.6"/>
+            <path class="hint-letter" d="M48.5 113.5 L50.7 109.1 L48.5 115.6 L48.5 117.8 L49.6 118.9 L50.7 118.9 L52.9 117.8 L54.0 116.7 L56.2 113.5"/>
+            <path class="hint-letter" d="M66.0 112.4 L64.9 110.2 L62.7 109.1 L60.5 109.1 L58.4 110.2 L57.3 111.3 L56.2 113.5 L56.2 115.6 L57.3 117.8 L59.5 118.9 L61.6 118.9 L63.8 117.8"/>
+            <path class="hint-letter" d="M67.1 109.1 L66.0 112.4 L63.8 117.8 L60.5 125.5 L59.5 128.7 L59.5 130.9 L60.5 132.0 L62.7 130.9 L63.8 127.6 L63.8 120.0 L66.0 118.9 L69.3 116.7 L72.5 113.5"/>
+            <path class="hint-letter" d="M72.5 113.5 L74.7 109.1 L72.5 115.6 L72.5 117.8 L73.6 118.9 L75.8 118.9 L78.0 117.8 L80.2 115.6 L82.4 112.4"/>
+            <path class="hint-letter" d="M83.5 109.1 L81.3 115.6 L81.3 117.8 L82.4 118.9 L83.5 118.9 L85.6 117.8 L86.7 116.7 L88.9 113.5"/>
+            <path class="hint-letter" d="M90.0 116.7 L92.2 115.6 L93.3 114.5 L94.4 112.4 L94.4 110.2 L93.3 109.1 L92.2 109.1 L90.0 110.2 L88.9 112.4 L88.9 115.6 L90.0 117.8 L92.2 118.9 L94.4 118.9 L96.5 117.8 L97.6 116.7 L99.8 113.5"/>
+            <path class="hint-letter" d="M99.8 113.5 L102.0 110.2 L104.2 109.1 L106.4 109.1 L108.5 111.3 L108.5 113.5 L107.5 115.6 L105.3 117.8 L102.0 118.9 L104.2 120.0 L105.3 122.2 L105.3 125.5 L104.2 128.7 L103.1 130.9 L100.9 132.0 L99.8 130.9 L99.8 128.7 L100.9 125.5 L104.2 122.2 L107.5 120.0 L111.8 116.7 L115.1 113.5"/>
+            <path class="hint-letter" d="M132.5 113.5 L134.7 110.2 L135.8 108.0 L134.7 112.4 L128.2 132.0"/>
+            <path class="hint-letter" d="M134.7 112.4 L135.8 110.2 L138.0 109.1 L140.2 109.1 L142.4 110.2 L143.5 112.4 L143.5 114.5 L142.4 116.7 L141.3 117.8 L139.1 118.9"/>
+            <path class="hint-letter" d="M134.7 117.8 L136.9 118.9 L140.2 118.9 L143.5 117.8 L145.6 116.7 L148.9 113.5"/>
+            <path class="hint-letter" d="M155.5 109.1 L153.3 109.1 L151.1 110.2 L150.0 111.3 L148.9 113.5 L148.9 115.6 L150.0 117.8 L152.2 118.9 L154.4 118.9 L156.5 117.8 L157.6 116.7 L158.7 114.5 L158.7 112.4 L157.6 110.2 L155.5 109.1 L154.4 110.2 L154.4 112.4 L155.5 114.5 L157.6 115.6 L160.9 115.6 L163.1 114.5 L164.2 113.5"/>
+            <path class="hint-letter" d="M164.2 113.5 L166.4 109.1 L164.2 115.6 L164.2 117.8 L165.3 118.9 L167.5 118.9 L169.6 117.8 L171.8 115.6 L174.0 112.4"/>
+            <path class="hint-letter" d="M175.1 109.1 L172.9 115.6 L172.9 117.8 L174.0 118.9 L175.1 118.9 L177.3 117.8 L178.4 116.7 L180.5 113.5"/>
+            <path class="hint-letter" d="M180.5 113.5 L182.7 110.2 L183.8 108.0 L183.8 110.2 L187.1 110.2 L188.2 111.3 L188.2 113.5 L187.1 116.7 L187.1 117.8 L188.2 118.9 L189.3 118.9 L191.5 117.8 L192.5 116.7 L194.7 113.5"/>
+            <path class="hint-letter" d="M56.5 155.1 L54.4 155.1 L52.2 156.2 L51.1 157.3 L50.0 159.5 L50.0 161.6 L51.1 163.8 L53.3 164.9 L55.5 164.9 L57.6 163.8 L58.7 162.7 L59.8 160.5 L59.8 158.4 L58.7 156.2 L56.5 155.1 L55.5 156.2 L55.5 158.4 L56.5 160.5 L58.7 161.6 L62.0 161.6 L64.2 160.5 L65.3 159.5"/>
+            <path class="hint-letter" d="M65.3 159.5 L67.5 155.1 L65.3 161.6 L65.3 163.8 L66.4 164.9 L68.5 164.9 L70.7 163.8 L72.9 161.6 L75.1 158.4"/>
+            <path class="hint-letter" d="M76.2 155.1 L74.0 161.6 L74.0 163.8 L75.1 164.9 L76.2 164.9 L78.4 163.8 L79.5 162.7 L81.6 159.5"/>
+            <path class="hint-letter" d="M81.6 159.5 L83.8 155.1 L82.7 160.5 L82.7 163.8 L83.8 164.9 L84.9 164.9 L88.2 163.8 L90.4 161.6 L91.5 158.4 L91.5 155.1"/>
+            <path class="hint-letter" d="M91.5 155.1 L92.5 159.5 L93.6 160.5 L95.8 160.5 L98.0 159.5"/>
+            <path class="hint-letter" d="M98.0 159.5 L100.2 156.2 L101.3 154.0 L101.3 156.2 L104.5 156.2 L105.6 157.3 L105.6 159.5 L104.5 162.7 L104.5 163.8 L105.6 164.9 L106.7 164.9 L108.9 163.8 L110.0 162.7 L112.2 159.5"/>
+            <path class="hint-letter" d="M115.5 149.6 L115.5 150.7 L116.5 150.7 L116.5 149.6 L115.5 149.6"/>
+            <path class="hint-letter" d="M112.2 159.5 L114.4 155.1 L112.2 161.6 L112.2 163.8 L113.3 164.9 L114.4 164.9 L116.5 163.8 L117.6 162.7 L119.8 159.5"/>
+            <path class="hint-letter" d="M119.8 159.5 L122.0 156.2 L123.1 154.0 L123.1 156.2 L126.4 156.2 L127.5 157.3 L127.5 159.5 L126.4 162.7 L126.4 163.8 L127.5 164.9 L128.5 164.9 L130.7 163.8 L131.8 162.7 L134.0 159.5"/>
+            <path class="hint-letter" d="M160.2 142.0 L159.1 143.1 L156.9 156.2"/>
+            <path class="hint-letter" d="M160.2 143.1 L156.9 156.2"/>
+            <path class="hint-letter" d="M160.2 142.0 L161.3 143.1 L156.9 156.2"/>
+            <path class="hint-letter" d="M154.7 162.7 L153.6 163.8 L154.7 164.9 L155.8 163.8 L154.7 162.7"/>
+        </g>
       </svg>
       <div class="book2 closed" role="button" tabindex="0" aria-label="Carnet de bord : cliquer pour tourner la page">
         <div class="board"></div>
@@ -140,22 +168,29 @@
     });
     prev.addEventListener('click',function(){ if(state>0) go(state-1); });
     stack();
-    // Flèche et texte qui se dessinent au défilement
-    var arrow=stage.querySelector('.hint-arrow'), head=stage.querySelector('.hint-head'), clip=document.getElementById('hint-clip-rect');
-    var la=arrow.getTotalLength(), lh=head.getTotalLength(), ticking=false;
-    arrow.style.strokeDasharray=la; head.style.strokeDasharray=lh;
-    function clamp(x){ return x<0?0:x>1?1:x; }
-    function draw(){
-      ticking=false;
-      var r=stage.getBoundingClientRect(), vh=window.innerHeight;
-      var p=clamp((vh - r.top - r.height*0.15)/(vh*0.45));
-      arrow.style.strokeDashoffset = la*(1-clamp(p/0.55));
-      head.style.strokeDashoffset = lh*(1-clamp((p-0.5)/0.12));
-      clip.setAttribute('width', 220*clamp((p-0.45)/0.5));
+    // Flèche puis lettres tracées une à une, comme au stylo, quand le carnet arrive à l'écran
+    var strokes=[].slice.call(stage.querySelectorAll('.hint-stroke, .hint-letter')), plan=[], t0=0;
+    strokes.forEach(function(p,i){
+      var L=p.getTotalLength(); p.style.strokeDasharray=L+' '+L; p.style.strokeDashoffset=L;
+      var d = i===0 ? 1.0 : i===1 ? 0.28 : Math.max(0.05, L/300);   // vitesse du stylo
+      if(i===2) t0+=0.25;                                            // on lève le stylo avant d'écrire
+      if(i===2+17) t0+=0.3;                                          // retour à la ligne
+      plan.push({p:p,L:L,start:t0,dur:d}); t0+=d+(i>1?0.03:0.08);
+    });
+    function ease(x){ return x<.5 ? 2*x*x : 1-Math.pow(-2*x+2,2)/2; }
+    function frame(t){
+      plan.forEach(function(s){ s.p.style.visibility = t>=s.start ? 'visible' : 'hidden'; var x=(t-s.start)/s.dur; x=x<0?0:x>1?1:x; s.p.style.strokeDashoffset = s.L*(1-(s.p.classList.contains('hint-letter')?x:ease(x))); });
     }
-    function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(draw); } }
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ arrow.style.strokeDashoffset=0; head.style.strokeDashoffset=0; clip.setAttribute('width',220); }
-    else { window.addEventListener('scroll',onScroll,{passive:true}); window.addEventListener('resize',onScroll); draw(); }
+    function play(){
+      var start=null;
+      function step(now){ if(start===null) start=now; var t=(now-start)/1000; frame(t); if(t<t0+0.1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    }
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)){ frame(1e3); }
+    else {
+      var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ io.disconnect(); setTimeout(play,250); } }); },{threshold:0.6});
+      io.observe(book);
+    }
   })();
   </script>
 </main>
