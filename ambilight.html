@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ambilight maison · Soméan Yoyotte</title>
 <meta name="description" content="Un Ambilight fait maison avec un Raspberry Pi, Hyperion et un bandeau de LED APA102.">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body class="page">
 <main class="wrap narrow">
@@ -79,37 +79,50 @@
   <h2>Le carnet de bord</h2>
   <p>Tout le projet est dans ce carnet, page par page.</p>
   <div class="notebook">
-    <div class="book-wrap">
-      <button class="book" type="button" aria-label="Tourner la page du carnet">
-        <div class="page" style="z-index:6"><img src="images/carnet/page-1.jpg" alt="Couverture du carnet : Setup, du 20 février au 15 avril 2024"><span class="back"></span></div>
-        <div class="page" style="z-index:5"><img src="images/carnet/page-2.jpg" alt="Page Panier : liste des achats, total 63,19 €, comparaison APA102 et WS2812"><span class="back"></span></div>
-        <div class="page" style="z-index:4"><img src="images/carnet/page-3.jpg" alt="Page Plan du montage : schéma des branchements et télécommande" loading="lazy"><span class="back"></span></div>
-        <div class="page" style="z-index:3"><img src="images/carnet/page-4.jpg" alt="Page Idées : trois options de boîtier et dimensions des cartes" loading="lazy"><span class="back"></span></div>
-        <div class="page" style="z-index:2"><img src="images/carnet/page-5.jpg" alt="Page Hyperion : installation d'HyperBian et paramétrage" loading="lazy"><span class="back"></span></div>
-        <div class="page" style="z-index:1"><img src="images/carnet/page-6.jpg" alt="Page LEDs : câblage du bandeau APA102 et diagnostic de la panne" loading="lazy"><span class="back"></span></div>
-      </button>
+    <div class="book-stage">
+      <div class="book2 closed" role="button" tabindex="0" aria-label="Carnet de bord : cliquer pour tourner la page">
+        <div class="board"></div>
+        <div class="leaf" data-i="0"><div class="face front"><div class="cover-front"><span class="elastic"></span></div></div><div class="face back"><img src="images/carnet/page-1.jpg" alt="Couverture du carnet : Yoyotte Soméan, Setup, du 20 février au 15 avril 2024" loading="lazy"></div></div>
+        <div class="leaf" data-i="1"><div class="face front"><img src="images/carnet/page-2.jpg" alt="Page Panier : liste des achats, total 63,19 €, comparaison APA102 et WS2812" loading="lazy"></div><div class="face back"><img src="images/carnet/page-3.jpg" alt="Page Plan du montage : schéma des branchements et télécommande" loading="lazy"></div></div>
+        <div class="leaf" data-i="2"><div class="face front"><img src="images/carnet/page-4.jpg" alt="Page Idées : trois options de boîtier et dimensions des cartes" loading="lazy"></div><div class="face back"><img src="images/carnet/page-5.jpg" alt="Page Hyperion : installation d'HyperBian et paramétrage" loading="lazy"></div></div>
+        <div class="leaf" data-i="3"><div class="face front"><img src="images/carnet/page-6.jpg" alt="Page LEDs : câblage du bandeau APA102 et diagnostic de la panne" loading="lazy"></div><div class="face back"></div></div>
+      </div>
     </div>
-    <div class="book-side">
-      <p class="book-hint">Cliquer pour la page suivante !</p>
-      <p class="book-count"><span id="book-num">1</span> / 6</p>
+    <p class="book-hint">Cliquer pour la page suivante !</p>
+    <div class="book-nav">
       <button class="book-prev" type="button">← Page précédente</button>
+      <span class="book-count" id="book-count">Couverture</span>
     </div>
   </div>
   <script>
   (function(){
-    var book=document.querySelector('.book'), pages=book.querySelectorAll('.page');
-    var num=document.getElementById('book-num'), prev=document.querySelector('.book-prev'), cur=0;
-    function show(){
-      pages.forEach(function(p,i){ p.classList.toggle('flipped', i<cur); });
-      num.textContent=cur+1; prev.disabled=cur===0;
+    var book=document.querySelector('.book2'), leaves=book.querySelectorAll('.leaf');
+    var count=document.getElementById('book-count'), prev=document.querySelector('.book-prev');
+    var labels=['Couverture','Pages 1 et 2','Pages 3 et 4','Pages 5 et 6'], state=0, last=leaves.length-1;
+    function layout(moving){
+      leaves.forEach(function(l,i){
+        var flipped=i<state;
+        l.classList.toggle('flipped',flipped);
+        l.style.zIndex = (i===moving) ? 30 : (flipped ? 1+i : 20-i);
+      });
+      book.classList.toggle('closed',state===0);
+      count.textContent=labels[state]; prev.disabled=state===0;
+      if(moving!==undefined){ setTimeout(function(){ layout(); },950); }
     }
-    book.addEventListener('click',function(){ cur = cur<pages.length-1 ? cur+1 : 0; show(); });
-    prev.addEventListener('click',function(){ if(cur>0){cur--; show();} });
+    function go(n){
+      if(n===state) return;
+      var moving = n>state ? state : n;
+      if(Math.abs(n-state)>1){ state=n; layout(); return; }
+      state=n; layout(moving);
+    }
+    function next(){ go(state<last ? state+1 : 0); }
+    book.addEventListener('click',next);
     book.addEventListener('keydown',function(e){
-      if(e.key==='ArrowRight'&&cur<pages.length-1){e.preventDefault(); cur++; show();}
-      if(e.key==='ArrowLeft'&&cur>0){e.preventDefault(); cur--; show();}
+      if(e.key==='Enter'||e.key===' '||e.key==='ArrowRight'){ e.preventDefault(); next(); }
+      if(e.key==='ArrowLeft'&&state>0){ e.preventDefault(); go(state-1); }
     });
-    show();
+    prev.addEventListener('click',function(){ if(state>0) go(state-1); });
+    layout();
   })();
   </script>
 </main>
