@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ambilight maison · Soméan Yoyotte</title>
 <meta name="description" content="Un Ambilight fait maison avec un Raspberry Pi, Hyperion et un bandeau de LED APA102.">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body class="page">
 <main class="wrap narrow">
@@ -80,6 +82,12 @@
   <p>Tout le projet est dans ce carnet, page par page.</p>
   <div class="notebook">
     <div class="book-stage">
+      <svg class="open-hint" viewBox="0 0 200 250" aria-hidden="true">
+        <defs><clipPath id="hint-clip"><rect id="hint-clip-rect" x="0" y="-10" width="0" height="260"/></clipPath></defs>
+        <path class="hint-arrow" d="M178 92 C 182 40, 128 22, 118 58 C 110 86, 150 84, 140 50 C 128 16, 66 24, 22 84"/>
+        <path class="hint-head" d="M34 64 L 20 86 L 46 84"/>
+        <g clip-path="url(#hint-clip)"><text x="40" y="142" textLength="146" lengthAdjust="spacingAndGlyphs" transform="rotate(-7 120 150)">Cliquez pour</text><text x="68" y="182" textLength="92" lengthAdjust="spacingAndGlyphs" transform="rotate(-7 120 150)">ouvrir !</text></g>
+      </svg>
       <div class="book2 closed" role="button" tabindex="0" aria-label="Carnet de bord : cliquer pour tourner la page">
         <div class="board"></div>
         <div class="leaf" data-i="0"><div class="face front"><div class="cover-front"><span class="elastic"></span></div></div><div class="face back"><img src="images/carnet/page-1.jpg" alt="Couverture du carnet : Yoyotte Soméan, Setup, du 20 février au 15 avril 2024" loading="lazy"></div></div>
@@ -88,22 +96,22 @@
         <div class="leaf" data-i="3"><div class="face front"><img src="images/carnet/page-6.jpg" alt="Page LEDs : câblage du bandeau APA102 et diagnostic de la panne" loading="lazy"></div><div class="face back"></div></div>
       </div>
     </div>
-    <p class="book-hint">Cliquer pour la page suivante !</p>
     <div class="book-nav">
       <button class="book-prev" type="button">← Page précédente</button>
       <span class="book-count" id="book-count">Couverture</span>
+      <button class="book-next" type="button">Page suivante →</button>
     </div>
   </div>
   <script>
   (function(){
     var book=document.querySelector('.book2'), leaves=[].slice.call(book.querySelectorAll('.leaf'));
-    var count=document.getElementById('book-count'), prev=document.querySelector('.book-prev');
+    var count=document.getElementById('book-count'), prev=document.querySelector('.book-prev'), nextBtn=document.querySelector('.book-next'), stage=document.querySelector('.book-stage');
     var labels=['Couverture','Pages 1 et 2','Pages 3 et 4','Pages 5 et 6'], state=0, last=leaves.length-1, busy=false;
     function settle(l,on){ l.classList.add('noanim'); l.classList.toggle('settled',on); void l.offsetWidth; l.classList.remove('noanim'); }
     function stack(moving){
       leaves.forEach(function(l,i){ l.style.zIndex = (l===moving) ? 30 : (i<state ? 1+i : 20-i); });
       book.classList.toggle('closed',state===0);
-      count.textContent=labels[state]; prev.disabled=state===0;
+      count.textContent=labels[state]; prev.disabled=state===0; nextBtn.textContent = state===last ? 'Refermer le carnet' : (state===0 ? 'Ouvrir le carnet →' : 'Page suivante →'); stage.classList.toggle('opened', state>0);
     }
     function go(n){
       if(busy||n===state) return;
@@ -120,13 +128,34 @@
       setTimeout(function(){ if(fwd) settle(l,true); stack(); busy=false; },950);
     }
     function next(){ go(state<last ? state+1 : 0); }
-    book.addEventListener('click',next);
+    book.addEventListener('click',function(e){
+      if(state===0){ next(); return; }
+      var r=book.getBoundingClientRect();
+      if(e.clientX < r.left + r.width/2){ go(state-1); } else { next(); }
+    });
+    nextBtn.addEventListener('click',next);
     book.addEventListener('keydown',function(e){
       if(e.key==='Enter'||e.key===' '||e.key==='ArrowRight'){ e.preventDefault(); next(); }
       if(e.key==='ArrowLeft'&&state>0){ e.preventDefault(); go(state-1); }
     });
     prev.addEventListener('click',function(){ if(state>0) go(state-1); });
     stack();
+    // Flèche et texte qui se dessinent au défilement
+    var arrow=stage.querySelector('.hint-arrow'), head=stage.querySelector('.hint-head'), clip=document.getElementById('hint-clip-rect');
+    var la=arrow.getTotalLength(), lh=head.getTotalLength(), ticking=false;
+    arrow.style.strokeDasharray=la; head.style.strokeDasharray=lh;
+    function clamp(x){ return x<0?0:x>1?1:x; }
+    function draw(){
+      ticking=false;
+      var r=stage.getBoundingClientRect(), vh=window.innerHeight;
+      var p=clamp((vh - r.top - r.height*0.15)/(vh*0.45));
+      arrow.style.strokeDashoffset = la*(1-clamp(p/0.55));
+      head.style.strokeDashoffset = lh*(1-clamp((p-0.5)/0.12));
+      clip.setAttribute('width', 220*clamp((p-0.45)/0.5));
+    }
+    function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(draw); } }
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ arrow.style.strokeDashoffset=0; head.style.strokeDashoffset=0; clip.setAttribute('width',220); }
+    else { window.addEventListener('scroll',onScroll,{passive:true}); window.addEventListener('resize',onScroll); draw(); }
   })();
   </script>
 </main>
