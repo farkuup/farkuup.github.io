@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ambilight maison · Soméan Yoyotte</title>
 <meta name="description" content="Un Ambilight fait maison avec un Raspberry Pi, Hyperion et un bandeau de LED APA102.">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body class="page">
 <main class="wrap narrow">
@@ -96,24 +96,28 @@
   </div>
   <script>
   (function(){
-    var book=document.querySelector('.book2'), leaves=book.querySelectorAll('.leaf');
+    var book=document.querySelector('.book2'), leaves=[].slice.call(book.querySelectorAll('.leaf'));
     var count=document.getElementById('book-count'), prev=document.querySelector('.book-prev');
-    var labels=['Couverture','Pages 1 et 2','Pages 3 et 4','Pages 5 et 6'], state=0, last=leaves.length-1;
-    function layout(moving){
-      leaves.forEach(function(l,i){
-        var flipped=i<state;
-        l.classList.toggle('flipped',flipped);
-        l.style.zIndex = (i===moving) ? 30 : (flipped ? 1+i : 20-i);
-      });
+    var labels=['Couverture','Pages 1 et 2','Pages 3 et 4','Pages 5 et 6'], state=0, last=leaves.length-1, busy=false;
+    function settle(l,on){ l.classList.add('noanim'); l.classList.toggle('settled',on); void l.offsetWidth; l.classList.remove('noanim'); }
+    function stack(moving){
+      leaves.forEach(function(l,i){ l.style.zIndex = (l===moving) ? 30 : (i<state ? 1+i : 20-i); });
       book.classList.toggle('closed',state===0);
       count.textContent=labels[state]; prev.disabled=state===0;
-      if(moving!==undefined){ setTimeout(function(){ layout(); },950); }
     }
     function go(n){
-      if(n===state) return;
-      var moving = n>state ? state : n;
-      if(Math.abs(n-state)>1){ state=n; layout(); return; }
-      state=n; layout(moving);
+      if(busy||n===state) return;
+      if(Math.abs(n-state)>1){
+        state=n;
+        leaves.forEach(function(l,i){ var f=i<state; l.classList.add('noanim'); l.classList.toggle('flipped',f); l.classList.toggle('settled',f); void l.offsetWidth; l.classList.remove('noanim'); });
+        stack(); return;
+      }
+      busy=true;
+      var fwd=n>state, l=leaves[fwd?state:n];
+      if(!fwd) settle(l,false);
+      state=n; stack(l);
+      requestAnimationFrame(function(){ l.classList.toggle('flipped',fwd); });
+      setTimeout(function(){ if(fwd) settle(l,true); stack(); busy=false; },950);
     }
     function next(){ go(state<last ? state+1 : 0); }
     book.addEventListener('click',next);
@@ -122,7 +126,7 @@
       if(e.key==='ArrowLeft'&&state>0){ e.preventDefault(); go(state-1); }
     });
     prev.addEventListener('click',function(){ if(state>0) go(state-1); });
-    layout();
+    stack();
   })();
   </script>
 </main>

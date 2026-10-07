@@ -105,7 +105,7 @@ th.num { text-align: right; }
 .book2 .board::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2.4%; transform: translateX(-50%); background: linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,0) 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.35)); }
 .book2 .leaf { position: absolute; top: 0; left: 50%; width: 50%; height: 100%; transform-origin: left center; transform-style: preserve-3d; transition: transform .9s cubic-bezier(.45,.05,.3,1); }
 .book2 .leaf.flipped { transform: rotateY(-180deg); }
-.book2 .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: #f6f1e4; overflow: hidden; }
+.book2 .face { position: absolute; inset: 0; margin: 0; display: block; font-weight: normal; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: #f6f1e4; overflow: hidden; }
 .book2 .face.front { border-radius: 2px 8px 8px 2px; box-shadow: inset 14px 0 18px -14px rgba(0,0,0,.45); }
 .book2 .face.back { transform: rotateY(180deg); border-radius: 8px 2px 2px 8px; box-shadow: inset -14px 0 18px -14px rgba(0,0,0,.45); }
 .book2 .face.back:empty { background: repeating-linear-gradient(180deg, #f6f1e4 0 22px, #dfe3ea 22px 23px), #f6f1e4; }
@@ -117,4 +117,8 @@ th.num { text-align: right; }
 .book-count { color: var(--muted); font-size: 14px; }
 .book-prev { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: inherit; cursor: pointer; }
 .book-prev:disabled { opacity: .4; cursor: default; }
+.book2 .leaf.noanim { transition: none !important; }
+.book2 .leaf.settled { transform: none; left: 0; transform-style: flat; }
+.book2 .leaf.settled .face.front { display: none; }
+.book2 .leaf.settled .face.back { transform: none; }
 @media (prefers-reduced-motion: reduce) { .book2, .book2 .leaf { transition: none; } }
