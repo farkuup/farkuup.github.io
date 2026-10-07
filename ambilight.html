@@ -407,7 +407,7 @@
       clicks++; p=Math.min(1,p+0.085); render();
       if(clicks>=3){ thermo.classList.add('show'); thermo.classList.remove('jolt'); void thermo.offsetWidth; thermo.classList.add('jolt'); if(clicks>3){ var m=thermoPoint(mercTop()); sparks(m.x,m.y,7,34,false); } }
       flip.classList.remove('wob'); void flip.offsetWidth; flip.classList.add('wob');
-      if(p>=1){ playing=false; showMsg(msgs.length-1); explode(); setTimeout(fadeAll,2500); return; }
+      if(p>=1){ playing=false; showMsg(msgs.length-1); explode(); setTimeout(fadeAll,2250); return; }
       mi = mi%4+1; showMsg(mi);                            // 4 consignes qui tournent
     }
     // éclats de verre qui retombent sur « Page précédente » et sur le trait au-dessus du pied de page
