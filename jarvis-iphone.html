@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jarvis sur iPhone · Soméan Yoyotte</title>
+<meta name="description" content="Un assistant vocal fait maison sur iPhone, avec l'app Raccourcis et l'API Gemini.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page">
+<main class="wrap narrow">
+  <a class="back" href="index.html">← Tous les projets</a>
+  <p class="kicker">Projet perso · 2026 · Terminé</p>
+  <h1>Jarvis sur iPhone</h1>
+  <p class="lead">Mon iPhone 13 Pro n'a pas Apple Intelligence. J'ai donc construit mon propre assistant vocal avec l'app Raccourcis : « Dis Siri, Jarvis », il m'écoute, interroge l'IA Gemini de Google, me répond à voix haute et garde le fil de la conversation.</p>
+  <ul class="tags big"><li>Raccourcis iOS</li><li>API REST</li><li>Gemini</li><li>JSON</li></ul>
+
+  <h2>Comment il marche</h2>
+  <ol class="timeline days">
+    <li><span>Écouter</span><p>Jarvis dit « Bonjour Monsieur, je vous écoute », puis dicte ce que je dis. Si je dis « Merci Jarvis », le raccourci s'arrête.</p></li>
+    <li><span>Demander</span><p>Il construit une requête JSON avec ses consignes (répondre en français, en une phrase courte, sans liste ni émoji) et tout l'historique de la conversation, puis l'envoie en POST à l'API Gemini.</p></li>
+    <li><span>Répondre</span><p>Il va chercher le texte dans la réponse JSON (<code>candidates</code> → <code>content</code> → <code>parts</code> → <code>text</code>) et le lit à voix haute.</p></li>
+    <li><span>Retenir</span><p>Il ajoute la question et la réponse à l'historique, puis réécoute. La boucle peut tourner 40 fois.</p></li>
+  </ol>
+
+  <h2>Le raccourci</h2>
+  <div class="gallery three">
+    <figure><img src="images/jarvis-iphone-1.jpg" alt="Raccourci Jarvis : variables Cle et Historique, message d'accueil, boucle de 40 tours et dictée" loading="lazy"><figcaption>L'accueil et la boucle d'écoute.</figcaption></figure>
+    <figure><img src="images/jarvis-iphone-2.jpg" alt="Raccourci Jarvis : arrêt sur « Merci Jarvis » et requête JSON avec les consignes de Jarvis" loading="lazy"><figcaption>L'arrêt et la requête envoyée à Gemini.</figcaption></figure>
+    <figure><img src="images/jarvis-iphone-3.jpg" alt="Raccourci Jarvis : appel de l'API Gemini et lecture de la réponse JSON" loading="lazy"><figcaption>L'appel à l'API et la lecture du JSON.</figcaption></figure>
+  </div>
+
+  <h2>Ce que j'ai dû régler</h2>
+  <div class="issues">
+    <div><h3>Des réponses trop longues</h3><p>Gemini répondait par des paragraphes entiers, pénibles à écouter. J'ai limité ses réponses à une seule phrase de 20 mots, sans liste ni émoji, puisqu'elles sont lues à voix haute.</p></div>
+    <div><h3>Une voix robotique</h3><p>La première voix sonnait mal en français. Il a fallu chercher une voix française plus naturelle pour que Jarvis soit agréable à écouter.</p></div>
+  </div>
+</main>
+<footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · Soméan Yoyotte · 2026</p></footer>
+</body>
+</html>

@@ -91,3 +91,5 @@ p code, li code { font-size: .9em; background: var(--card); border: 1px solid va
 .page .timeline p { font-size: 16px; }
 figure video { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; background: #000; }
 th.num { text-align: right; }
+.gallery.three { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 560px) { .gallery.three { grid-template-columns: 1fr; } }
