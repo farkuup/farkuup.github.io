@@ -97,33 +97,29 @@ th.num { text-align: right; }
 /* Carnet double page */
 .notebook { margin: 20px 0 8px; }
 .book-stage { position: relative; max-width: 680px; margin: 0 auto; padding: 3% 0 7%; perspective: 2400px; }
-.open-hint, .game-text { position: absolute; right: -4%; top: 8%; width: 34%; overflow: visible; z-index: 0; pointer-events: none; transition: opacity .3s ease; }
+.open-hint, .game-text { position: absolute; right: -4%; top: 8%; width: 34%; overflow: visible; z-index: 0; pointer-events: none; transition: opacity .6s ease; }
 .book-stage.opened .open-hint { opacity: 0; }
-.open-hint path, .side-hint path, .side-left path, .side-right path, .game-text path { fill: none; stroke: var(--hint, #d98200); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.open-hint path, .game-text path { fill: none; stroke: var(--hint, #d98200); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
 .open-hint .hint-letter, .game-text path { stroke-width: 2.4; }
-/* « revenir » et « avancer » */
-.side-hint, .side-left, .side-right { position: absolute; overflow: visible; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
-.side-hint { left: 0; right: 0; bottom: 0; width: 100%; height: auto; }
-.side-left, .side-right { display: none; top: 34%; width: 18%; }
-.side-left { right: 101%; }
-.side-right { left: 101%; }
-.side-hint path, .side-left path, .side-right path { stroke-width: 2.2; }
-.side-hint .side-letter, .side-left .side-letter, .side-right .side-letter { stroke-width: 1.8; }
-.book-stage.reading .side-hint, .book-stage.reading .side-left, .book-stage.reading .side-right { opacity: 1; }
-@media (min-width: 920px) { .side-hint { display: none; } .side-left, .side-right { display: block; } }
+/* « revenir » et « avancer » écrits sur les pages */
+.book2 .page-labels { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .35s ease; }
+.book-stage.reading .book2 .page-labels { opacity: 1; }
+.book2 .page-labels path { fill: none; stroke: #d27800; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.book2 .page-labels .page-letter { stroke-width: 5; }
 /* Mini-jeu : consignes à droite, thermomètre à gauche */
-.game-text { top: 22%; opacity: 0; transition: opacity .7s ease; }
+.game-text { top: 22%; opacity: 0; transition: opacity .5s ease; }
 .book-stage.gaming .game-text { opacity: 1; }
 .game-text.shake { animation: text-shake .35s ease; }
 @keyframes text-shake { 15% { translate: -6px 0; rotate: -3deg; } 35% { translate: 5px 0; rotate: 2deg; } 55% { translate: -4px 0; rotate: -1.5deg; } 75% { translate: 2px 0; rotate: .8deg; } }
-.thermo { position: absolute; left: 6%; top: 10%; width: 12.5%; pointer-events: none; opacity: 0; translate: 0 12px; transition: opacity .6s ease, translate .6s ease; }
+.thermo { position: absolute; left: 6%; top: 10%; width: 12.5%; pointer-events: none; opacity: 0; translate: 0 12px; transition: opacity .5s ease, translate .5s ease; }
 .thermo svg { display: block; width: 100%; height: auto; overflow: visible; }
 .thermo .tick { stroke: #1d1d1f; stroke-width: 2; stroke-linecap: round; }
 .thermo.show { opacity: 1; translate: 0 0; }
 .thermo.jolt { animation: thermo-jolt .3s ease; }
 @keyframes thermo-jolt { 20% { rotate: -6deg; scale: 1.06; } 45% { rotate: 5deg; } 70% { rotate: -3deg; } 90% { rotate: 1deg; } }
-.thermo.boom { animation: thermo-boom .3s ease-in forwards; }
-@keyframes thermo-boom { 0% { scale: 1; opacity: 1; } 40% { scale: 1.25; rotate: -4deg; opacity: 1; } 100% { scale: 1.6; opacity: 0; } }
+.thermo.boom { animation: thermo-boom .45s ease-out; }
+@keyframes thermo-boom { 15% { scale: 1.12; rotate: -7deg; } 40% { rotate: 6deg; } 65% { rotate: -3deg; scale: 1.03; } }
+.glass-shard { position: absolute; z-index: 60; pointer-events: none; background: linear-gradient(135deg, rgba(245,252,252,.95), rgba(170,206,207,.9) 55%, rgba(120,165,168,.95)); filter: drop-shadow(0 1px 1px rgba(0,0,0,.3)); }
 .book-stage .spark { position: absolute; z-index: 5; border-radius: 50%; pointer-events: none; box-shadow: 0 0 6px rgba(255,120,60,.6); }
 .book-stage .spark.shard { border-radius: 2px; box-shadow: none; }
 .red-line { position: absolute; z-index: 50; pointer-events: none; border-radius: 99px 99px 0 0; background: linear-gradient(90deg, #ef3a4b 0 72%, #d02b3c 72%); box-shadow: 0 0 14px rgba(239,58,75,.65); }
@@ -159,8 +155,7 @@ th.num { text-align: right; }
 .book2 .cover-front::before, .book2 .cover-back::before { content: ""; position: absolute; top: 0; bottom: 0; width: 7%; pointer-events: none; }
 .book2 .cover-front::before { left: 0; border-radius: 3px 0 0 3px; background: linear-gradient(90deg, rgba(0,0,0,.22), rgba(0,0,0,.06) 45%, rgba(0,0,0,.12) 62%, rgba(255,255,255,.04) 78%, rgba(0,0,0,0)); }
 .book2 .cover-back::before { right: 0; border-radius: 0 3px 3px 0; background: linear-gradient(270deg, rgba(0,0,0,.22), rgba(0,0,0,.06) 45%, rgba(0,0,0,.12) 62%, rgba(255,255,255,.04) 78%, rgba(0,0,0,0)); }
-.book2 .emboss { position: absolute; left: 6%; right: 17%; top: 10%; text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-size: 6.6cqw; letter-spacing: .14em; text-transform: uppercase; color: rgba(8,20,70,.5); text-shadow: 0 1px 0 rgba(255,255,255,.18), 0 -1px 0 rgba(0,0,0,.28); pointer-events: none; white-space: nowrap; }
-.book2 .emboss-name { top: auto; bottom: 9%; left: 0; right: 6%; font-size: 13px; font-size: 5.2cqw; letter-spacing: .08em; text-transform: none; }
+.book2 .seal { position: absolute; left: 50%; bottom: 9%; width: 17cqw; height: 17cqw; transform: translateX(-62%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 7.2cqw; letter-spacing: .02em; color: rgba(8,20,70,.42); text-shadow: 0 1px 0 rgba(255,255,255,.16), 0 -1px 0 rgba(0,0,0,.28); box-shadow: inset 0 1px 1px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.14), inset 0 0 0 3px rgba(31,63,174,1), inset 0 0 0 4px rgba(8,20,70,.3); pointer-events: none; }
 /* Élastique plat, mat, posé sur la couverture */
 .book2 .elastic, .book2 .stub { position: absolute; width: 5.2%; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='f' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.8' numOctaves='1' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url%28%23f%29'/%3E%3C/svg%3E"), linear-gradient(90deg, #a8490e 0%, #dd6c22 14%, #f2843a 40%, #f68c42 55%, #e37526 82%, #ad4c10 100%); background-size: 60px 60px, 100% 100%; background-blend-mode: soft-light, normal; }
 .book2 .elastic { right: 10%; top: 0; bottom: 0; box-shadow: 2px 0 3px rgba(0,0,0,.35), 5px 0 8px rgba(0,0,0,.15); }
@@ -182,4 +177,4 @@ th.num { text-align: right; }
 .book2 .leaf.settled .face.front { display: none; }
 .book2 .leaf.settled .face.back { transform: none; }
 @media (prefers-reduced-motion: reduce) { .book2, .book2 .leaf { transition: none; } .book-flip.wob, .game-text.shake, .thermo.jolt { animation: none; } }
-@media (prefers-color-scheme: dark) { .open-hint, .side-hint, .side-left, .side-right, .game-text { --hint: #f2b632; } }
+@media (prefers-color-scheme: dark) { .open-hint, .game-text { --hint: #f2b632; } }
