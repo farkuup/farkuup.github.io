@@ -77,11 +77,41 @@
   </div>
 
   <h2>Le carnet de bord</h2>
-  <div class="gallery">
-    <img src="images/ambi-couverture.jpg" alt="Couverture de mon carnet de bord : Setup, du 20 février au 15 avril 2024" loading="lazy">
-    <img src="images/ambi-panier.jpg" alt="Page du carnet : liste d'achats et comparaison APA102 contre WS2812" loading="lazy">
-    <img src="images/ambi-boitier.jpg" alt="Page du carnet : idées de boîtier et dimensions des cartes" loading="lazy">
+  <p>Tout le projet est dans ce carnet, page par page.</p>
+  <div class="notebook">
+    <div class="book-wrap">
+      <button class="book" type="button" aria-label="Tourner la page du carnet">
+        <div class="page" style="z-index:6"><img src="images/carnet/page-1.jpg" alt="Couverture du carnet : Setup, du 20 février au 15 avril 2024"><span class="back"></span></div>
+        <div class="page" style="z-index:5"><img src="images/carnet/page-2.jpg" alt="Page Panier : liste des achats, total 63,19 €, comparaison APA102 et WS2812"><span class="back"></span></div>
+        <div class="page" style="z-index:4"><img src="images/carnet/page-3.jpg" alt="Page Plan du montage : schéma des branchements et télécommande" loading="lazy"><span class="back"></span></div>
+        <div class="page" style="z-index:3"><img src="images/carnet/page-4.jpg" alt="Page Idées : trois options de boîtier et dimensions des cartes" loading="lazy"><span class="back"></span></div>
+        <div class="page" style="z-index:2"><img src="images/carnet/page-5.jpg" alt="Page Hyperion : installation d'HyperBian et paramétrage" loading="lazy"><span class="back"></span></div>
+        <div class="page" style="z-index:1"><img src="images/carnet/page-6.jpg" alt="Page LEDs : câblage du bandeau APA102 et diagnostic de la panne" loading="lazy"><span class="back"></span></div>
+      </button>
+    </div>
+    <div class="book-side">
+      <p class="book-hint">Cliquer pour la page suivante !</p>
+      <p class="book-count"><span id="book-num">1</span> / 6</p>
+      <button class="book-prev" type="button">← Page précédente</button>
+    </div>
   </div>
+  <script>
+  (function(){
+    var book=document.querySelector('.book'), pages=book.querySelectorAll('.page');
+    var num=document.getElementById('book-num'), prev=document.querySelector('.book-prev'), cur=0;
+    function show(){
+      pages.forEach(function(p,i){ p.classList.toggle('flipped', i<cur); });
+      num.textContent=cur+1; prev.disabled=cur===0;
+    }
+    book.addEventListener('click',function(){ cur = cur<pages.length-1 ? cur+1 : 0; show(); });
+    prev.addEventListener('click',function(){ if(cur>0){cur--; show();} });
+    book.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'&&cur<pages.length-1){e.preventDefault(); cur++; show();}
+      if(e.key==='ArrowLeft'&&cur>0){e.preventDefault(); cur--; show();}
+    });
+    show();
+  })();
+  </script>
 </main>
 <footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · Soméan Yoyotte · 2026</p></footer>
 </body>
