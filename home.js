@@ -14,10 +14,10 @@
   const intro = $('#intro'), box = $('.iw-box'), svgDraw = $('.iw-draw'), svgBh = $('.iw-bh'),
         fontEl = $('.iw-font'), etym = $('.intro-etym'), canvas = $('canvas.glitch');
   const title = $('.title'), w1 = $('.w1'), w2 = $('.w2'), L1 = [...w1.children], L2 = [...w2.children];
-  const pres = $('.pres'), pws = $$('.pw'), proj = $('.proj-title'), anchor = $('.proj-anchor'),
+  const pres = $('.pres'), pws = $$('.pw'), cta = $('.pres .cta'), proj = $('.proj-title'), anchor = $('.proj-anchor'),
         heroSpace = $('.hero-space'), bar = $('.bar'), logo = $('.logo'), icons = $$('.social a'), hint = $('.scroll-hint');
   const BASE = 200, PBASE = 64;
-  const st = { rise: 1, k: 0, kTarget: 0, intro: false, lock: false, hintTimer: 0,
+  const st = { rise: 1, pr: 1, cta: 1, k: 0, kTarget: 0, intro: false, lock: false, hintTimer: 0,
                bx: 0, by: 0, rot: 0, vibDone: false, vibTimer: 0, buzzing: false };
   let M = null;
 
@@ -168,17 +168,23 @@
 
     // Présentation : apparaît mot à mot, puis se dissout vers le haut
     const n = pws.length;
-    const key = r.toFixed(3) + '|' + p1.toFixed(3);
+    const key = st.pr.toFixed(3) + '|' + st.cta.toFixed(3) + '|' + p1.toFixed(3);
     pres.style.transform = `translate(${M.presL.toFixed(2)}px,${(M.presTop - y * .45).toFixed(2)}px)`;
     if (key !== lastWords) {
       pws.forEach((w, i) => {
-        const rv = clamp((r - .26 - i * (.3 / n)) / .4);
+        const rv = clamp((st.pr - i * (.35 / n)) / .65);
         const d = clamp((p1 - .02 - i / n * .22) / .2);
         const op = rv * (1 - d);
         w.style.opacity = op.toFixed(3);
         w.style.transform = op ? `translateY(${((1 - rv) * 12 - d * 22).toFixed(2)}px)` : '';
         w.style.filter = d > 0 && d < 1 ? `blur(${(d * 4).toFixed(2)}px)` : '';
       });
+      if (cta) {
+        const cv = ss(st.cta), d = clamp((p1 - .24) / .2), op = cv * (1 - d);
+        cta.style.opacity = op.toFixed(3);
+        cta.style.transform = op ? `translateY(${((1 - cv) * 10 - d * 22).toFixed(2)}px)` : '';
+        cta.style.visibility = op > .05 ? 'visible' : 'hidden';
+      }
       lastWords = key;
     }
 
@@ -416,7 +422,7 @@
     H.classList.add('intro-run'); H.classList.remove('ready');
     intro.classList.remove('swap');
     W.scrollTo(0, 0);
-    st.k = 0; st.kTarget = 0; st.rise = 0;
+    st.k = 0; st.kTarget = 0; st.rise = 0; st.pr = 0; st.cta = 0;
     setLogoFont('Herr Von Muellerhoff'); store.set('logoPolice', 'Herr Von Muellerhoff');
     etym.classList.remove('on', 'off');
     svgDraw.style.visibility = 'visible'; svgBh.style.visibility = 'hidden'; fontEl.style.visibility = 'hidden';
@@ -470,8 +476,12 @@
     if (fx) fx.stop();
     await (glitching || glitch());
     H.classList.remove('intro-run'); intro.classList.remove('swap');
-    // la montée démarre tout de suite : la présentation commence à apparaître environ 1 s après le nom
-    await tween('rise', 1, 1100);
+    // la montée démarre tout de suite : la présentation apparaît environ 1,25 s après le nom,
+    // puis le bouton « Me contacter » 1 s après la présentation
+    const rising = tween('rise', 1, 1100);
+    sleep(690).then(() => tween('pr', 1, 700));
+    sleep(1690).then(() => tween('cta', 1, 450));
+    await rising;
     st.lock = false; st.intro = false;
     store.set('introVue', '1');
     scheduleHint();
