@@ -53,6 +53,7 @@ html.ambilight .ambi-glow { opacity: .9; }
 .jarvis input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: var(--term-fg); font: inherit; caret-color: var(--term-accent); }
 
 @media (prefers-reduced-motion: reduce) {
+  .egg.hatching svg { animation: none !important; }
   .ambi-glow { animation: none; }
   .timeline.ink li::before, .timeline.ink li > * { transition: none; }
 }
@@ -68,6 +69,9 @@ footer p:has(.egg), footer p.has-egg { position: relative; padding-right: 32px; 
 .egg:hover svg, .egg:focus-visible svg { animation: eggWobble .6s ease-in-out; }
 .egg:focus { outline: none; }
 .egg:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.egg.hatching:not(.cracked) svg { transform-origin: 50% 100%; animation: eggHatch 3.2s ease-in-out infinite; }
+.egg.hatching:not(.cracked):hover svg { animation: eggWobble .6s ease-in-out; }
+@keyframes eggHatch { 0%, 18%, 100% { transform: rotate(0); } 3% { transform: rotate(-14deg); } 6% { transform: rotate(12deg); } 9% { transform: rotate(-9deg); } 12% { transform: rotate(6deg); } 15% { transform: rotate(-3deg); } }
 .egg.cracked svg { animation: eggWobble .35s ease-in-out; }
 .egg.cracked .egg-top { transform: translate(5px, -9px) rotate(38deg); opacity: .0; transition-delay: .25s; }
 .egg.cracked .yolk { opacity: 1; }

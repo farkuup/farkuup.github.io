@@ -92,7 +92,7 @@ html.ready .proj-title { opacity: 1; }
 .answer { position: fixed; top: 0; right: 0; z-index: 60; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 10px; border-radius: 999px; background: #1f9d55; color: #fff; font-size: 14px; font-weight: 600; line-height: 1; white-space: nowrap; pointer-events: none; opacity: 0; transform: translateY(-6px) scale(.9); transform-origin: 85% 0; transition: opacity .18s ease, transform .18s ease; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
 .answer::before { content: ""; position: absolute; top: -5px; right: 22px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); border-radius: 2px; }
 .answer svg { width: 15px; height: 15px; fill: currentColor; animation: ring 1.9s ease-in-out infinite; }
-.answer.on { opacity: 1; transform: none; }
+.answer.on { opacity: 1; transform: none; pointer-events: auto; cursor: pointer; }
 @keyframes ring { 0%, 40%, 100% { transform: rotate(0); } 5%, 15%, 25% { transform: rotate(-14deg); } 10%, 20%, 30% { transform: rotate(14deg); } }
 @media (prefers-color-scheme: dark) { .answer { background: #2fbf6c; color: #0d0d0d; } }
 

@@ -231,6 +231,9 @@
       + '<g class="egg-bot" clip-path="url(#egg-bot)"><path class="shell" d="M12 1C5.5 1 1.5 12 1.5 18.5S6 29 12 29s10.5-4 10.5-10.5S18.5 1 12 1Z"/><ellipse class="yolk" cx="12" cy="18" rx="5.2" ry="3.4"/></g>'
       + '<g class="egg-top" clip-path="url(#egg-top)"><path class="shell" d="M12 1C5.5 1 1.5 12 1.5 18.5S6 29 12 29s10.5-4 10.5-10.5S18.5 1 12 1Z"/></g></svg>';
     footP.appendChild(eggBtn); footP.classList.add('has-egg');
+    // quand on arrive en bas, l'œuf se balance de temps en temps, comme s'il allait éclore
+    if ('IntersectionObserver' in W) new IntersectionObserver(es => eggBtn.classList.toggle('hatching', es[0].isIntersecting), { threshold: 1 }).observe(eggBtn);
+    else eggBtn.classList.add('hatching');
     eggBtn.addEventListener('click', () => {
       if (eggBtn.classList.contains('cracked')) { openEggs(); return; }
       eggBtn.classList.add('cracked');

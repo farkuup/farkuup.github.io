@@ -225,14 +225,16 @@
     }
     if (!st.vibTimer && !st.buzzing) st.vibTimer = setTimeout(startBuzz, 5000);
   }
-  // « Répondre ! » quand la souris passe sur le titre qui vibre
+  // « Répondre ! » : apparaît 1,5 s après le début des vibrations (ou tout de suite au survol)
   const answer = D.createElement('span');
   answer.className = 'answer'; answer.setAttribute('aria-hidden', 'true');
   answer.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>Répondre !';
   D.body.appendChild(answer);
-  let overTitle = false;
+  let overTitle = false, autoAns = false, autoT = 0;
+  answer.addEventListener('click', () => title.click());
   function syncAnswer() {
-    const on = overTitle && st.buzzing;
+    if (!st.buzzing) { clearTimeout(autoT); autoT = 0; autoAns = false; }
+    const on = (overTitle || autoAns) && st.buzzing;
     if (on && !answer.classList.contains('on')) {
       const a = w1.getBoundingClientRect(), b = w2.getBoundingClientRect();
       answer.style.top = Math.round(Math.max(a.bottom, b.bottom) + 12) + 'px';
@@ -245,6 +247,7 @@
   title.addEventListener('mouseleave', () => { leaveT = setTimeout(() => { overTitle = false; syncAnswer(); }, 180); });
   function startBuzz() {
     st.vibTimer = 0; st.buzzing = true;
+    clearTimeout(autoT); autoT = setTimeout(() => { autoAns = true; syncAnswer(); }, 1500);
     syncAnswer();
     const t0 = performance.now();
     const step = now => {
