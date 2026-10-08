@@ -58,6 +58,10 @@
       'quitter     ferme Jarvis'].join('\n'),
     projets: () => {
       const f = D.createDocumentFragment();
+      if (!cards.length) {
+        const a = D.createElement('a'); a.textContent = 'Voir tous les projets sur l\'accueil'; a.href = 'index.html#projets';
+        f.appendChild(a); return f;
+      }
       cards.forEach((c, i) => {
         const a = D.createElement('a');
         a.textContent = `${i + 1}. ${c.title}`;
@@ -83,7 +87,7 @@
     secrets: () => { setTimeout(() => { closeJarvis(); openEggs(); }, 350); return 'Je vous montre les secrets du site.'; },
     cv: () => 'Le CV arrive bientôt. En attendant, tapez « contact ».',
     ambilight: () => toggleAmbilight() ? 'Ambilight allumé. Retapez « ambilight » pour l\'éteindre.' : 'Ambilight éteint.',
-    intro: () => { setTimeout(() => { closeJarvis(); const l = $('.logo'); if (l) l.click(); }, 350); return 'Je relance l\'intro.'; },
+    intro: () => { setTimeout(() => { closeJarvis(); replayIntro(); }, 350); return 'Je relance l\'intro.'; },
     effacer: () => { out.textContent = ''; return null; },
     quitter: () => { setTimeout(closeJarvis, 250); return 'À bientôt.'; },
     jarvis: () => 'Oui ?',
@@ -171,14 +175,21 @@
   }
 
   /* ---------- L'œuf du pied de page ---------- */
+  // sur l'accueil, « portfolio » rejoue l'intro ; ailleurs on y retourne pour la revoir
+  function replayIntro() {
+    const l = $('.home .logo');
+    if (l) { l.click(); return; }
+    try { localStorage.removeItem('introVue'); } catch (e) {}
+    location.href = 'index.html';
+  }
   const footP = $('footer p');
   let eggBtn = null, dlg = null;
   const EGGS = [
     ['Le mode Ambilight', 'Tapez le code Konami au clavier :<span class="keys"><kbd>↑</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>←</kbd><kbd>→</kbd><kbd>B</kbd><kbd>A</kbd></span>Sur téléphone, touchez 5 fois « Projets » dans le bandeau.', 'Allumer', () => { closeEggs(); setTimeout(toggleAmbilight, 250); }],
     ['Jarvis', 'Tapez « jarvis » au clavier, n\'importe où sur la page. Il connaît tout de moi et vous aidera si vous avez besoin.', 'Ouvrir Jarvis', () => { closeEggs(); setTimeout(openJarvis, 250); }],
-    ['Le bras robotique', 'Sur la carte « Bras robotique 4 axes », il suit votre souris ou votre doigt. Cliquez pour qu\'il serre la pince.', 'Le voir', () => { closeEggs(); const c = $('canvas.arm'); if (c) c.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }],
+    ['Le bras robotique', 'Sur la carte « Bras robotique 4 axes », il suit votre souris ou votre doigt. Cliquez pour qu\'il serre la pince.', 'Le voir', () => { closeEggs(); const c = $('canvas.arm'); if (c) c.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); else location.href = 'index.html#bras'; }],
     ['Soméan vous appelle !', 'Répondez à l\'appel en cliquant sur mon nom en haut à droite.'],
-    ['« portfolio » change d\'écriture', 'Il prend une nouvelle police à chaque retour sur l\'accueil. Cliquez dessus pour revoir l\'intro.', 'Revoir l\'intro', () => { closeEggs(); setTimeout(() => { const l = $('.logo'); if (l) l.click(); }, 250); }],
+    ['« portfolio » change d\'écriture', 'Il prend une nouvelle police à chaque retour sur l\'accueil. Cliquez dessus pour revoir l\'intro.', 'Revoir l\'intro', () => { closeEggs(); setTimeout(replayIntro, 250); }],
     ['Le carnet de l\'Ambilight', 'Feuilletez le carnet de bord jusqu\'à la dernière page : un petit jeu vous attend.', 'Aller au carnet', 'ambilight.html#carnet'],
   ];
   function buildEggs() {
@@ -191,9 +202,9 @@
       li.innerHTML = `<div><b>${t}</b><p>${txt}</p></div>`;
       if (label) {
         const b = D.createElement(typeof act === 'string' ? 'a' : 'button');
-        b.className = 'eggs-go'; b.textContent = '→ ' + label;
+        b.className = 'eggs-go'; b.textContent = label;
         if (typeof act === 'string') b.href = act; else { b.type = 'button'; b.addEventListener('click', act); }
-        li.firstChild.appendChild(b);
+        li.appendChild(b);
       }
       ol.appendChild(li);
     });
@@ -219,7 +230,7 @@
       + '<clipPath id="egg-bot"><path d="M0 16L4.5 13L8 17L12 13L16 17L19.5 13L24 16V30H0Z"/></clipPath></defs>'
       + '<g class="egg-bot" clip-path="url(#egg-bot)"><path class="shell" d="M12 1C5.5 1 1.5 12 1.5 18.5S6 29 12 29s10.5-4 10.5-10.5S18.5 1 12 1Z"/><ellipse class="yolk" cx="12" cy="18" rx="5.2" ry="3.4"/></g>'
       + '<g class="egg-top" clip-path="url(#egg-top)"><path class="shell" d="M12 1C5.5 1 1.5 12 1.5 18.5S6 29 12 29s10.5-4 10.5-10.5S18.5 1 12 1Z"/></g></svg>';
-    footP.appendChild(eggBtn);
+    footP.appendChild(eggBtn); footP.classList.add('has-egg');
     eggBtn.addEventListener('click', () => {
       if (eggBtn.classList.contains('cracked')) { openEggs(); return; }
       eggBtn.classList.add('cracked');
@@ -387,4 +398,5 @@
     }
     W.addEventListener('resize', () => { layout(); drawArm(); wake(); });
   }
+  if (location.hash === '#bras' && armCv) setTimeout(() => armCv.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }), 700);
 })();
