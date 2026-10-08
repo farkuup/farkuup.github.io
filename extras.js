@@ -175,25 +175,25 @@
   let eggBtn = null, dlg = null;
   const EGGS = [
     ['Le mode Ambilight', 'Tapez le code Konami au clavier :<span class="keys"><kbd>↑</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>←</kbd><kbd>→</kbd><kbd>B</kbd><kbd>A</kbd></span>Sur téléphone, touchez 5 fois « Projets » dans le bandeau.', 'Allumer', () => { closeEggs(); setTimeout(toggleAmbilight, 250); }],
-    ['Jarvis', 'Tapez « jarvis » au clavier, n\'importe où sur la page. Il connaît mes projets et sait comment me joindre.', 'Ouvrir Jarvis', () => { closeEggs(); setTimeout(openJarvis, 250); }],
-    ['Le bras robotique', 'Sur la carte « Bras robotique 4 axes », il suit votre souris ou votre doigt, sans dépasser ses butées. Cliquez pour qu\'il serre la pince.', 'Le voir', () => { closeEggs(); const c = $('canvas.arm'); if (c) c.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }],
-    ['Mon nom qui sonne', 'Quand mon nom est rangé en haut à droite, il vibre au bout de 5 secondes, comme un téléphone. Cliquez dessus pour répondre.'],
+    ['Jarvis', 'Tapez « jarvis » au clavier, n\'importe où sur la page. Il connaît tout de moi et vous aidera si vous avez besoin.', 'Ouvrir Jarvis', () => { closeEggs(); setTimeout(openJarvis, 250); }],
+    ['Le bras robotique', 'Sur la carte « Bras robotique 4 axes », il suit votre souris ou votre doigt. Cliquez pour qu\'il serre la pince.', 'Le voir', () => { closeEggs(); const c = $('canvas.arm'); if (c) c.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }],
+    ['Soméan vous appelle !', 'Répondez à l\'appel en cliquant sur mon nom en haut à droite.'],
     ['« portfolio » change d\'écriture', 'Il prend une nouvelle police à chaque retour sur l\'accueil. Cliquez dessus pour revoir l\'intro.', 'Revoir l\'intro', () => { closeEggs(); setTimeout(() => { const l = $('.logo'); if (l) l.click(); }, 250); }],
     ['Le carnet de l\'Ambilight', 'Feuilletez le carnet de bord jusqu\'à la dernière page : un petit jeu vous attend.', 'Aller au carnet', 'ambilight.html#carnet'],
   ];
   function buildEggs() {
     dlg = D.createElement('dialog');
     dlg.className = 'eggs'; dlg.setAttribute('aria-labelledby', 'eggs-t');
-    dlg.innerHTML = '<button type="button" class="eggs-x" aria-label="Fermer">×</button><h2 id="eggs-t">Les œufs cachés</h2><p class="eggs-sub">Bravo, vous avez trouvé le premier. Voici les autres.</p><ol></ol><p class="eggs-foot">Et aussi : la frise se dessine quand vous défilez, et la carte Ambilight s\'allume au survol.</p>';
+    dlg.innerHTML = '<button type="button" class="eggs-x" aria-label="Fermer">×</button><h2 id="eggs-t">Les œufs cachés</h2><p class="eggs-sub">Bravo, vous avez trouvé le premier ! Voici les autres.</p><ol></ol>';
     const ol = dlg.querySelector('ol');
     EGGS.forEach(([t, txt, label, act]) => {
       const li = D.createElement('li');
       li.innerHTML = `<div><b>${t}</b><p>${txt}</p></div>`;
       if (label) {
         const b = D.createElement(typeof act === 'string' ? 'a' : 'button');
-        b.className = 'eggs-go'; b.textContent = label;
+        b.className = 'eggs-go'; b.textContent = '→ ' + label;
         if (typeof act === 'string') b.href = act; else { b.type = 'button'; b.addEventListener('click', act); }
-        li.appendChild(b);
+        li.firstChild.appendChild(b);
       }
       ol.appendChild(li);
     });
