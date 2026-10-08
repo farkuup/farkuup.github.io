@@ -217,9 +217,8 @@
   }
 
   /* ---------- Vibration du titre quand il est rangé en haut à droite ---------- */
-  const touchOnly = matchMedia('(hover: none) and (pointer: coarse)').matches; // téléphones et tablettes : pas de vibration
   function vibArm(atRight) {
-    if (!atRight || st.vibDone || st.intro || reduce || touchOnly) {
+    if (!atRight || st.vibDone || st.intro || reduce) {
       clearTimeout(st.vibTimer); st.vibTimer = 0;
       if (st.buzzing) { st.buzzing = false; st.bx = st.by = st.rot = 0; }
       return;
