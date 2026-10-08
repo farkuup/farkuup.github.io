@@ -1,0 +1,89 @@
+/* Accueil : nouvelle direction artistique */
+/* Polices Google Fonts (licence SIL OFL), hébergées ici */
+@font-face { font-family: 'Abril Fatface'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/abril-fatface.woff2) format('woff2'); }
+@font-face { font-family: 'Anton'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/anton.woff2) format('woff2'); }
+@font-face { font-family: 'Gochi Hand'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/gochi-hand.woff2) format('woff2'); }
+@font-face { font-family: 'Herr Von Muellerhoff'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/herr-von-muellerhoff.woff2) format('woff2'); }
+@font-face { font-family: 'Monoton'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/monoton.woff2) format('woff2'); }
+@font-face { font-family: 'Reenie Beanie'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/reenie-beanie.woff2) format('woff2'); }
+@font-face { font-family: 'Rubik Glitch'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/rubik-glitch.woff2) format('woff2'); }
+@font-face { font-family: 'Fredoka'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/fredoka.woff2) format('woff2'); }
+@font-face { font-family: 'Gluten'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/gluten.woff2) format('woff2'); }
+@font-face { font-family: 'Instrument Serif'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/instrument-serif.woff2) format('woff2'); }
+@font-face { font-family: 'Major Mono Display'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/major-mono-display.woff2) format('woff2'); }
+@font-face { font-family: 'Michroma'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/michroma.woff2) format('woff2'); }
+@font-face { font-family: 'Orbitron'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/orbitron.woff2) format('woff2'); }
+@font-face { font-family: 'Pixelify Sans'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/pixelify-sans.woff2) format('woff2'); }
+@font-face { font-family: 'Playfair Display'; font-style: normal; font-weight: 400; font-display: block; src: url(fonts/playfair-display.woff2) format('woff2'); }
+body.home { --bg: #fff; --hint: #d98200; --barH: 64px; --pad: 28px; overflow-x: hidden; }
+@media (prefers-color-scheme: dark) { body.home { --bg: #0d0d0d; --hint: #f2b632; } }
+@media (max-width: 700px) { body.home { --barH: 56px; --pad: 16px; } }
+
+/* Intro */
+#intro { display: none; position: fixed; inset: 0; z-index: 100; background: var(--bg); color: var(--fg); }
+html.intro-run #intro { display: block; }
+#intro.swap { background: transparent; pointer-events: none; }
+#intro.swap .intro-stage { display: none; }
+.intro-stage { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.iw-box { position: relative; }
+.iw-box > * { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.iw-draw, .iw-bh { width: 100%; height: 100%; overflow: visible; }
+.iw-letter { fill: currentColor; fill-opacity: 0; stroke: currentColor; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.iw-bh, .iw-font { visibility: hidden; }
+.iw-bh path { fill: currentColor; }
+.iw-font { white-space: nowrap; line-height: 1; color: var(--fg); }
+.intro-etym { margin: 18px 0 0; max-width: 440px; padding: 0 24px; text-align: center; font-size: 13px; line-height: 1.5; color: var(--muted); opacity: 0; transition: opacity .7s ease; }
+.intro-etym.on { opacity: 1; }
+.intro-etym.off { opacity: 0; transition-duration: .25s; }
+.intro-skip { position: absolute; left: 0; right: 0; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); margin: 0; text-align: center; font-size: 11px; letter-spacing: .04em; color: var(--muted); opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+.intro-skip.on { opacity: .45; animation: skipPulse 2.2s ease-in-out infinite; }
+.intro-skip.off { opacity: 0; animation: none; transition-duration: .2s; }
+@keyframes skipPulse { 50% { opacity: .25; } }
+canvas.glitch { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; }
+
+/* Bandeau */
+.home .bar { position: fixed; left: 0; right: 0; top: 0; height: var(--barH); background: var(--bg); z-index: 40; border-bottom: 1px solid transparent; transition: border-color .3s ease; }
+.home .bar.line { border-bottom-color: var(--line); }
+.home .logo { position: fixed; left: var(--pad); top: 0; height: var(--barH); display: flex; align-items: center; z-index: 50; font-family: "Herr Von Muellerhoff", cursive; font-size: 46px; line-height: 1; color: var(--fg); padding-top: 4px; }
+.home .logo:hover { text-decoration: none; opacity: .7; }
+@media (max-width: 700px) { .home .logo { font-size: 38px; } }
+
+/* Titre */
+.home .title { margin: 0; font-size: inherit; }
+.title .w { position: fixed; left: 0; top: 0; transform-origin: 0 0; font: 400 200px/1 Anton, Impact, "Arial Narrow", sans-serif; letter-spacing: 0; white-space: nowrap; color: var(--fg); z-index: 50; will-change: transform; opacity: 0; user-select: none; }
+html.ready .title .w { opacity: 1; }
+.title.tap .w { cursor: pointer; }
+.title .l { display: inline-block; vertical-align: top; }
+.title.sq .l { overflow: hidden; padding: .3em 0; margin: -.3em 0; }
+.title:focus { outline: none; }
+.title:focus-visible .w { outline: 2px solid var(--accent); outline-offset: 6px; }
+
+.social a { position: fixed; left: 0; top: 0; width: 22px; height: 22px; color: var(--fg); z-index: 50; opacity: 0; visibility: hidden; }
+.social a svg { display: block; width: 100%; height: 100%; }
+.social a.on { visibility: visible; }
+@media (max-width: 700px) { .social a { width: 20px; height: 20px; } }
+
+.home .pres { position: fixed; left: 0; top: 0; margin: 0; max-width: 580px; font-size: 20px; line-height: 1.5; font-weight: 400; text-align: center; color: var(--fg); z-index: 45; pointer-events: none; }
+.pres .pw { display: inline-block; opacity: 0; will-change: transform, opacity; }
+@media (max-width: 700px) { .home .pres { font-size: 18px; } }
+
+.proj-title { position: fixed; left: 0; top: 0; transform-origin: 0 0; font: 400 64px/1 Anton, Impact, "Arial Narrow", sans-serif; letter-spacing: 0; white-space: nowrap; color: var(--fg); z-index: 50; opacity: 0; pointer-events: none; }
+html.ready .proj-title { opacity: 1; }
+.home .proj-anchor { visibility: hidden; text-align: center; font-family: Anton, Impact, "Arial Narrow", sans-serif; font-weight: 400; line-height: 1; letter-spacing: 0; margin: 0 0 44px; }
+.home #projets { padding-top: 0; }
+
+/* Indication « Défilez » */
+.scroll-hint { position: fixed; right: var(--pad); bottom: 18px; width: 112px; z-index: 55; opacity: 0; transition: opacity .5s ease; pointer-events: none; overflow: visible; }
+.scroll-hint.on { opacity: 1; }
+.scroll-hint:not(.on) { transition-duration: .2s; }
+.scroll-hint path { fill: none; stroke: var(--hint); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.scroll-hint .sh-stroke { stroke-width: 3.2; }
+
+/* Cartes */
+.home .card { border-radius: 22px; }
+.home .card.wait { opacity: 0; transform: translateY(28px); }
+.home .card.in { transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .15s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .home .card.wait { opacity: 1; transform: none; }
+}
