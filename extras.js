@@ -144,45 +144,6 @@
     }
   });
 
-  /* ---------- 6. Plume et trace d'encre ---------- */
-  if (fine) {
-    H.classList.add('plume');
-    if (!reduce) {
-      const cv = D.createElement('canvas'); cv.className = 'ink-trail'; cv.setAttribute('aria-hidden', 'true'); D.body.appendChild(cv);
-      const ctx = cv.getContext('2d');
-      let pts = [], raf = 0, dpr = 1;
-      const size = () => { dpr = Math.min(2, W.devicePixelRatio || 1); cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; };
-      size(); W.addEventListener('resize', size);
-      const LIFE = 650;
-      const draw = () => {
-        raf = 0;
-        const now = performance.now();
-        pts = pts.filter(p => now - p.t < LIFE);
-        ctx.clearRect(0, 0, cv.width, cv.height);
-        if (pts.length > 1) {
-          ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-          const ink = getComputedStyle(D.body).color;
-          for (let i = 1; i < pts.length; i++) {
-            const a = pts[i - 1], b = pts[i];
-            if (b.t - a.t > 80) continue;
-            const sp = Math.hypot(b.x - a.x, b.y - a.y) / Math.max(1, b.t - a.t);
-            ctx.globalAlpha = .55 * (1 - (now - b.t) / LIFE);
-            ctx.strokeStyle = ink;
-            ctx.lineWidth = clamp(2.6 - sp * .9, .7, 2.6) * dpr;
-            ctx.beginPath(); ctx.moveTo(a.x * dpr, a.y * dpr); ctx.lineTo(b.x * dpr, b.y * dpr); ctx.stroke();
-          }
-        }
-        if (pts.length) raf = requestAnimationFrame(draw);
-      };
-      W.addEventListener('pointermove', e => {
-        if (e.pointerType !== 'mouse' || H.classList.contains('intro-run')) return;
-        pts.push({ x: e.clientX, y: e.clientY, t: performance.now() });
-        if (pts.length > 80) pts.shift();
-        if (!raf) raf = requestAnimationFrame(draw);
-      }, { passive: true });
-    }
-  }
-
   /* ---------- 7. Frise qui se dessine au stylo ---------- */
   const tl = $('#debut .timeline');
   if (tl) {
@@ -218,7 +179,6 @@
     ['Le bras robotique', 'Sur la carte « Bras robotique 4 axes », il suit votre souris ou votre doigt, sans dépasser ses butées. Cliquez pour qu\'il serre la pince.', 'Le voir', () => { closeEggs(); const c = $('canvas.arm'); if (c) c.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }],
     ['Mon nom qui sonne', 'Quand mon nom est rangé en haut à droite, il vibre au bout de 5 secondes, comme un téléphone. Cliquez dessus pour répondre.'],
     ['« portfolio » change d\'écriture', 'Il prend une nouvelle police à chaque retour sur l\'accueil. Cliquez dessus pour revoir l\'intro.', 'Revoir l\'intro', () => { closeEggs(); setTimeout(() => { const l = $('.logo'); if (l) l.click(); }, 250); }],
-    ['La plume', 'Sur ordinateur, votre curseur est une plume qui laisse une trace d\'encre.'],
     ['Le carnet de l\'Ambilight', 'Feuilletez le carnet de bord jusqu\'à la dernière page : un petit jeu vous attend.', 'Aller au carnet', 'ambilight.html#carnet'],
   ];
   function buildEggs() {
