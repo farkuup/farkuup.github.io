@@ -197,7 +197,8 @@
     dlg.className = 'eggs'; dlg.setAttribute('aria-labelledby', 'eggs-t');
     dlg.innerHTML = '<button type="button" class="eggs-x" aria-label="Fermer">×</button><h2 id="eggs-t">Les œufs cachés</h2><p class="eggs-sub">Bravo, vous avez trouvé le premier ! Voici les autres.</p><ol></ol>';
     const ol = dlg.querySelector('ol');
-    EGGS.forEach(([t, txt, label, act]) => {
+    const touchOnly = matchMedia('(hover: none) and (pointer: coarse)').matches;
+    EGGS.filter(e => !(touchOnly && e[0] === 'Soméan vous appelle !')).forEach(([t, txt, label, act]) => {
       const li = D.createElement('li');
       li.innerHTML = `<div><b>${t}</b><p>${txt}</p></div>`;
       if (label) {
