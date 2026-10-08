@@ -219,11 +219,30 @@
     }
     if (!st.vibTimer && !st.buzzing) st.vibTimer = setTimeout(startBuzz, 5000);
   }
+  // « Répondre ! » quand la souris passe sur le titre qui vibre
+  const answer = D.createElement('span');
+  answer.className = 'answer'; answer.setAttribute('aria-hidden', 'true');
+  answer.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>Répondre !';
+  D.body.appendChild(answer);
+  let overTitle = false;
+  function syncAnswer() {
+    const on = overTitle && st.buzzing;
+    if (on && !answer.classList.contains('on')) {
+      const a = w1.getBoundingClientRect(), b = w2.getBoundingClientRect();
+      answer.style.top = Math.round(Math.max(a.bottom, b.bottom) + 12) + 'px';
+      answer.style.right = Math.round(innerWidth - Math.max(a.right, b.right)) + 'px';
+    }
+    answer.classList.toggle('on', on);
+  }
+  let leaveT = 0;
+  title.addEventListener('mouseenter', () => { clearTimeout(leaveT); overTitle = true; syncAnswer(); });
+  title.addEventListener('mouseleave', () => { leaveT = setTimeout(() => { overTitle = false; syncAnswer(); }, 180); });
   function startBuzz() {
     st.vibTimer = 0; st.buzzing = true;
+    syncAnswer();
     const t0 = performance.now();
     const step = now => {
-      if (!st.buzzing) { st.bx = st.by = st.rot = 0; render(); return; }
+      if (!st.buzzing) { st.bx = st.by = st.rot = 0; render(); syncAnswer(); return; }
       // comme un téléphone : deux vibrations courtes, puis une pause.
       // Pendant chaque vibration, le titre pivote à droite puis à gauche, à une vitesse liée à celle de la vibration.
       const t = (now - t0) % 1900;
@@ -239,7 +258,7 @@
     };
     requestAnimationFrame(step);
   }
-  function stopVib() { st.vibDone = true; clearTimeout(st.vibTimer); st.vibTimer = 0; st.buzzing = false; st.bx = st.by = st.rot = 0; }
+  function stopVib() { st.vibDone = true; clearTimeout(st.vibTimer); st.vibTimer = 0; st.buzzing = false; st.bx = st.by = st.rot = 0; syncAnswer(); }
 
   function toggleSY(on) {
     if (st.kTarget === +on) return;
