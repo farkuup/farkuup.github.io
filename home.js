@@ -459,7 +459,7 @@
   }
 
   /* ---------- « portfolio » change de police à chaque retour sur l'accueil ---------- */
-  const LOGO_FONTS = ['Herr Von Muellerhoff', 'Instrument Serif', 'Abril Fatface', 'Anton', 'Playfair Display',
+  const LOGO_FONTS = ['Herr Von Muellerhoff', 'Instrument Serif', 'Abril Fatface', 'Playfair Display',
                       'Gochi Hand', 'Reenie Beanie', 'Fredoka', 'Gluten', 'Pixelify Sans'];
   function setLogoFont(fam) {
     logo.style.fontFamily = `"${fam}", cursive`;
