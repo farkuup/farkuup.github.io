@@ -14,7 +14,6 @@
   <p class="kicker">Projets perso · 2021 – 2026 · En cours</p>
   <h1>Pimp my PC</h1>
   <p class="lead">Reproduire sur mon PC Windows ce que j'aime sur Mac : l'interface en 2021, puis les AirPods et AirDrop en 2026.</p>
-  <ul class="tags big"><li>Windows 11</li><li>Rainmeter</li><li>Conception</li><li>Tests</li><li>Code avec l'IA</li></ul>
 
   <div class="issues" style="margin-top:22px">
     <div><h3>Qui a fait quoi</h3><p>Windows transformé en macOS (2021) est entièrement mon travail, sans IA. Pour AirPulse et AirDrop, j'ai eu l'idée, défini le design et le comportement, testé sur mon matériel, repéré les bugs et orienté chaque version. Le code, lui, a été écrit en grande partie par Claude, une IA d'Anthropic.</p></div>
@@ -33,20 +32,22 @@
 
   <h2>AirPulse</h2>
   <p>Une application pour la zone de notification de Windows 11. Elle affiche la batterie de chaque écouteur et du boîtier, ouvre un widget à l'ouverture du boîtier, prévient avec une bulle quand les AirPods se connectent ou partent sur un autre appareil, met la musique en pause quand on retire un écouteur, et peut basculer automatiquement entre le PC et l'iPhone. Je l'ai testée avec mes AirPods Pro 2.</p>
-  <ul class="tags"><li>Outils : C#, .NET, WPF</li><li>Bluetooth LE</li></ul>
-  <p class="credit"><b>Mon rôle :</b> l'idée, la liste des fonctions, le design de chaque fenêtre, les tests avec mes AirPods et les bugs à corriger. <b>Rôle de l'IA :</b> l'écriture du code, en suivant mes consignes.</p>
-  <div class="gallery" style="align-items:end;margin-top:22px">
+  <p style="margin:18px 0 8px;font-size:15px"><b>Compétences mobilisées</b></p>
+  <ul class="tags"><li>Cahier des charges</li><li>Design d'interface</li><li>Tests</li><li>Diagnostic de bugs</li><li>Bluetooth LE</li></ul>
+  <p class="credit"><b>Mon rôle :</b> l'idée, la liste des fonctions, le design de chaque fenêtre, les tests avec mes AirPods et les bugs à corriger.<br><b>Rôle de l'IA :</b> l'écriture du code (C#, .NET, WPF), en suivant mes consignes.</p>
+  <p style="margin-top:22px">Captures en mode démonstration : l'appareil est fictif et les images sont des illustrations dessinées pour AirPulse.</p>
+  <div class="gallery" style="align-items:end;margin-top:14px">
     <figure><img src="images/pimp-airpulse-panneau.png" alt="Panneau AirPulse : batteries gauche, droite et boîtier, modes d'écoute, conversation et audio spatial" loading="lazy"><figcaption>Le panneau, depuis l'icône de la zone de notification.</figcaption></figure>
     <figure><img src="images/pimp-airpulse-widget.png" alt="Widget AirPulse à l'ouverture du boîtier : AirPods Pro, batteries 82 %, 79 % et 64 %" loading="lazy"><figcaption>Le widget qui s'ouvre avec le boîtier.</figcaption></figure>
   </div>
   <figure><img style="margin:0" src="images/pimp-airpulse-bulle.png" alt="Bulle AirPulse : AirPods utilisés sur un autre appareil" loading="lazy"><figcaption>La bulle quand les AirPods partent sur un autre appareil.</figcaption></figure>
-  <p class="credit" style="margin-top:-6px !important;margin-bottom:22px !important">Captures en mode démonstration : l'appareil est fictif et les images sont des illustrations dessinées pour AirPulse.</p>
   <p><b>Une limite repérée : un protocole fermé.</b> En testant, on a vu que les modes d'écoute (réduction de bruit, transparence) passent par un protocole propriétaire d'Apple, inaccessible aux applications Windows. Ils ne marchent qu'avec un pilote libre qui exige le mode test de Windows. J'ai choisi de le rendre facultatif : sans lui, AirPulse fonctionne quand même en Bluetooth LE.</p>
 
   <h2>AirDrop maison</h2>
   <p>Le vrai AirDrop repose sur un Wi-Fi propriétaire d'Apple que Windows ne sait pas utiliser : impossible d'en faire une copie compatible. J'ai donc choisi une autre voie : le PC héberge un petit serveur sur le Wi-Fi de la maison, et seuls les appareils jumelés peuvent s'y connecter. L'iPhone et l'iPad passent par des Raccourcis iOS, sans application à installer.</p>
-  <ul class="tags"><li>Outils : C#, .NET, WPF</li><li>Serveur HTTP</li><li>Raccourcis iOS</li></ul>
-  <p class="credit"><b>Mon rôle :</b> l'idée, le choix de passer par le Wi-Fi et les Raccourcis, le design des deux fenêtres (j'ai fourni les icônes), les tests sur le PC, l'iPhone et l'iPad, et les bugs à corriger. <b>Rôle de l'IA :</b> l'écriture du code et l'explication des limites techniques, en suivant mes consignes.</p>
+  <p style="margin:18px 0 8px;font-size:15px"><b>Compétences mobilisées</b></p>
+  <ul class="tags"><li>Cahier des charges</li><li>Design d'interface</li><li>Tests sur PC, iPhone et iPad</li><li>Raccourcis iOS</li><li>Réseau local</li></ul>
+  <p class="credit"><b>Mon rôle :</b> l'idée, le choix de passer par le Wi-Fi et les Raccourcis, le design des deux fenêtres (j'ai fourni les icônes), les tests sur le PC, l'iPhone et l'iPad, et les bugs à corriger.<br><b>Rôle de l'IA :</b> l'écriture du code (C#, .NET, serveur HTTP) et l'explication des limites techniques, en suivant mes consignes.</p>
 
   <h3>Comment il marche</h3>
   <ol class="timeline days">
@@ -68,7 +69,6 @@
     <li><b>Un iPhone qu'on ne peut pas réveiller.</b> iOS interdit d'écrire dans l'app Fichiers sans action sur l'iPhone, et le PC ne peut pas le réveiller. C'est donc l'iPhone qui va chercher les fichiers, avec le second raccourci.</li>
     <li><b>Un fichier qui s'ouvre tout seul.</b> Cliquer sur la notification « Fichier reçu » ouvre le fichier. Pour qu'un programme envoyé par erreur ne se lance pas, les fichiers exécutables et les scripts sont seulement montrés dans l'Explorateur.</li>
   </ul>
-  <p class="credit">AirPods, AirDrop, Mac, iPhone et iPad sont des marques d'Apple. Ces projets personnels n'ont aucun lien avec Apple.</p>
 </main>
 <footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · © 2026 Soméan Yoyotte · Tous droits réservés</p></footer>
 <script src="extras.js?v=8"></script>
