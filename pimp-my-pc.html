@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pimp my PC · Soméan Yoyotte</title>
+<meta name="description" content="Windows transformé en macOS en 2021, puis AirPulse et un AirDrop maison, conçus et testés par moi, codés avec l'IA Claude.">
+<link rel="stylesheet" href="style.css?v=15">
+<link rel="stylesheet" href="extras.css?v=6">
+</head>
+<body class="page">
+<main class="wrap narrow">
+  <a class="back" href="index.html">← Tous les projets</a>
+  <p class="kicker">Projets perso · 2021 – 2026 · En cours</p>
+  <h1>Pimp my PC</h1>
+  <p class="lead">Reproduire sur mon PC Windows ce que j'aime sur Mac : l'interface en 2021, puis les AirPods et AirDrop en 2026.</p>
+  <ul class="tags big"><li>Windows 11</li><li>Rainmeter</li><li>Conception</li><li>Tests</li><li>Code avec l'IA</li></ul>
+
+  <div class="issues" style="margin-top:22px">
+    <div><h3>Qui a fait quoi</h3><p>Windows transformé en macOS (2021) est entièrement mon travail, sans IA. Pour AirPulse et AirDrop, j'ai eu l'idée, défini le design et le comportement, testé sur mon matériel, repéré les bugs et orienté chaque version. Le code, lui, a été écrit en grande partie par Claude, une IA d'Anthropic.</p></div>
+  </div>
+
+  <h2>Trois étapes</h2>
+  <ol class="timeline days">
+    <li><span>2021</span><p><b>Windows transformé en macOS.</b> L'interface d'un Mac sur mon PC.</p></li>
+    <li><span>2026</span><p><b>AirPulse.</b> Les AirPods avec leur batterie, leur widget et leur bascule PC ↔ iPhone, comme sur Mac.</p></li>
+    <li><span>2026</span><p><b>AirDrop maison.</b> Un échange de fichiers entre le PC, l'iPhone et l'iPad.</p></li>
+  </ol>
+
+  <h2>Windows transformé en macOS</h2>
+  <p>J'ai reproduit l'interface d'un Mac sur mon PC avec Rainmeter, un dock et d'autres outils de personnalisation.</p>
+  <p><a class="tl-link" href="https://youtu.be/aGqY4Z3S7-4" target="_blank" rel="noopener">→ Voir la démo</a></p>
+
+  <h2>AirPulse</h2>
+  <p>Une application pour la zone de notification de Windows 11. Elle affiche la batterie de chaque écouteur et du boîtier, ouvre un widget à l'ouverture du boîtier, prévient avec une bulle quand les AirPods se connectent ou partent sur un autre appareil, met la musique en pause quand on retire un écouteur, et peut basculer automatiquement entre le PC et l'iPhone. Je l'ai testée avec mes AirPods Pro 2.</p>
+  <ul class="tags"><li>Outils : C#, .NET, WPF</li><li>Bluetooth LE</li></ul>
+  <div class="gallery">
+    <figure><img src="images/pimp-airpulse-panneau.png" alt="Panneau AirPulse : batteries gauche, droite et boîtier, modes d'écoute, conversation et audio spatial" loading="lazy"><figcaption>Le panneau, depuis l'icône de la zone de notification.</figcaption></figure>
+    <figure><img src="images/pimp-airpulse-widget.png" alt="Widget AirPulse à l'ouverture du boîtier : AirPods Pro, batteries 82 %, 79 % et 64 %" loading="lazy"><figcaption>Le widget qui s'ouvre avec le boîtier.</figcaption></figure>
+  </div>
+  <figure><img src="images/pimp-airpulse-bulle.png" alt="Bulle AirPulse : AirPods utilisés sur un autre appareil" loading="lazy"><figcaption>La bulle quand les AirPods partent sur un autre appareil.</figcaption></figure>
+  <p class="credit">Captures en mode démonstration : l'appareil est fictif et les images sont des illustrations dessinées pour AirPulse.</p>
+  <div class="issues">
+    <div><h3>Une limite repérée : un protocole fermé</h3><p>En testant, on a vu que les modes d'écoute (réduction de bruit, transparence) passent par un protocole propriétaire d'Apple, inaccessible aux applications Windows. Ils ne marchent qu'avec un pilote libre qui exige le mode test de Windows. J'ai choisi de le rendre facultatif : sans lui, AirPulse fonctionne quand même en Bluetooth LE.</p></div>
+  </div>
+
+  <h2>AirDrop maison</h2>
+  <p>Le vrai AirDrop repose sur un Wi-Fi propriétaire d'Apple que Windows ne sait pas utiliser : impossible d'en faire une copie compatible. J'ai donc choisi une autre voie : le PC héberge un petit serveur sur le Wi-Fi de la maison, et seuls les appareils jumelés peuvent s'y connecter. L'iPhone et l'iPad passent par des Raccourcis iOS, sans application à installer.</p>
+  <ul class="tags"><li>Outils : C#, .NET, WPF</li><li>Serveur HTTP</li><li>Raccourcis iOS</li></ul>
+
+  <h3>Comment il marche</h3>
+  <ol class="timeline days">
+    <li><span>Jumeler</span><p>Le PC affiche un code QR que l'iPhone scanne. L'appareil reçoit un jeton secret.</p></li>
+    <li><span>Envoyer</span><p>Un raccourci iOS ajoute « Envoyer au PC » au menu Partager. Le fichier arrive dans un dossier du PC, avec une notification.</p></li>
+    <li><span>Recevoir</span><p>Un second raccourci va chercher ce que le PC a envoyé et le range dans un dossier de l'app Fichiers.</p></li>
+    <li><span>Déposer</span><p>Sur le PC, je maintiens un fichier sur l'icône de la barre des tâches : une petite zone surgit avec l'iPhone et l'iPad, et je lâche le fichier dessus.</p></li>
+  </ol>
+
+  <div class="gallery">
+    <figure><img src="images/pimp-airdrop-attente.png" alt="Zone de dépôt en attente : cadre en pointillés et logo" loading="lazy"><figcaption>La zone de dépôt, en attente.</figcaption></figure>
+    <figure><img src="images/pimp-airdrop-survol.png" alt="Zone de dépôt quand un fichier la survole : deux zones, iPhone et iPad" loading="lazy"><figcaption>Quand un fichier la survole : iPhone ou iPad.</figcaption></figure>
+  </div>
+
+  <h3>Les problèmes que j'ai repérés en testant</h3>
+  <div class="issues">
+    <div><h3>La zone ne s'ouvrait jamais</h3><p>En maintenant un fichier sur l'icône, rien ne se passait. Après diagnostic, Windows 11 répondait toujours « la barre des tâches » au lieu du bouton visé. Le code a été corrigé pour chercher le bouton lui-même, et j'ai vérifié que ça marchait.</p></div>
+    <div><h3>La mauvaise fenêtre s'ouvrait</h3><p>Au survol d'un fichier, Windows rouvrait la fenêtre principale au lieu de la petite zone. J'ai demandé que la fenêtre principale ne s'ouvre plus que depuis l'icône près de l'horloge.</p></div>
+    <div><h3>Un iPhone qu'on ne peut pas réveiller</h3><p>iOS interdit d'écrire dans l'app Fichiers sans action sur l'iPhone, et le PC ne peut pas le réveiller. C'est donc l'iPhone qui va chercher les fichiers, avec le second raccourci.</p></div>
+    <div><h3>Un fichier qui s'ouvre tout seul</h3><p>Cliquer sur la notification « Fichier reçu » ouvre le fichier. Pour qu'un programme envoyé par erreur ne se lance pas, les fichiers exécutables et les scripts sont seulement montrés dans l'Explorateur.</p></div>
+  </div>
+  <p class="credit">AirPods, AirDrop, Mac, iPhone et iPad sont des marques d'Apple. Ces projets personnels n'ont aucun lien avec Apple.</p>
+</main>
+<footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · © 2026 Soméan Yoyotte · Tous droits réservés</p></footer>
+<script src="extras.js?v=8"></script>
+</body>
+</html>
