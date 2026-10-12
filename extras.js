@@ -74,7 +74,7 @@
     contact: () => {
       const f = D.createDocumentFragment();
       [['E-mail', 'someanyoyotte@gmail.com', 'mailto:someanyoyotte@gmail.com'],
-       ['LinkedIn', 'linkedin.com/in/soméan-yoyotte', 'https://www.linkedin.com/in/som%C3%A9an-yoyotte-b241a2222/'],
+       ['LinkedIn', 'linkedin.com/in/somean-yoyotte', 'https://www.linkedin.com/in/somean-yoyotte/'],
        ['GitHub', 'github.com/farkuup', 'https://github.com/farkuup']].forEach(([n, t, h]) => {
         f.appendChild(D.createTextNode(n.padEnd(10)));
         const a = D.createElement('a'); a.textContent = t; a.href = h; if (h.startsWith('http')) { a.target = '_blank'; a.rel = 'noopener'; }
