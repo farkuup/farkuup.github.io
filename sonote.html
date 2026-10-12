@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonote · Soméan Yoyotte</title>
+<meta name="description" content="Sonote, une application en C pour suivre mes notes et calculer mes moyennes, avec une interface web sur smartphone.">
+<link rel="stylesheet" href="style.css?v=15">
+<link rel="stylesheet" href="extras.css?v=6">
+<style>
+  .math { text-align: center; margin: 18px 0; font-size: 20px; }
+  .math math { font-size: 1.15em; }
+</style>
+</head>
+<body class="page">
+<main class="wrap narrow">
+  <a class="back" href="index.html">← Tous les projets</a>
+  <p class="kicker">Projet perso · 2026 · En cours</p>
+  <h1>Sonote</h1>
+  <p class="lead">Une application en C pour suivre mes notes et calculer mes moyennes, avec une interface web accessible sur smartphone.</p>
+  <ul class="tags big"><li>C</li><li>WebAssembly</li><li>Emscripten</li><li>Git</li></ul>
+
+  <h2>Introduction</h2>
+  <p>Au cours de ma première année de CP2I, nos notes de DS, TP, khôlles, etc. nous étaient transmises par mail : c'était compliqué à gérer et à consulter. J'avais donc fait un tableur qui les répertoriait toutes. Sauf que c'était fastidieux et pas très esthétique.</p>
+  <figure><img src="images/sonote-tableur.png" alt="Ancien tableur de notes du semestre 2 : notes de DST, CC, TP et khôlles par matière, avec les moyennes en couleur" loading="lazy"><figcaption>Mon ancien tableur de notes.</figcaption></figure>
+  <p>C'est ainsi qu'est né <i>Sonote</i>, une application de suivi et de calcul de moyennes développée en C, avec une interface web accessible sur smartphone. Elle enregistre les notes selon leur type (DS, TP, khôlle, contrôle continu…), puis calcule automatiquement les moyennes par matière, par unité d'enseignement (UE) et sur le semestre.</p>
+
+  <h2>Démarche</h2>
+  <p>J'ai choisi de coder en C, car c'est le langage au programme de cette année et je voulais m'y entraîner. J'ai ensuite relevé les coefficients et les limites dans le document officiel de la formation (M3C) :</p>
+  <table>
+    <tr><th>UE</th><th class="num">Coeff.</th><th>Matières (coeff., limite)</th><th class="num">Limite UE</th></tr>
+    <tr><td>Maths-Info</td><td class="num">12</td><td>Analyse (4) ; Algèbre (4) ; Info (4)</td><td class="num">7</td></tr>
+    <tr><td>Physique-Chimie</td><td class="num">9</td><td>Physique (5) ; Chimie (4)</td><td class="num">7</td></tr>
+    <tr><td>Culture ingé</td><td class="num">5,5</td><td>Anglais (2,5 ; 8) ; Sport (1,5 ; 8) ; TEC (1,5 ; 10)</td><td class="num">10</td></tr>
+    <tr><td>Option</td><td class="num">3</td><td>Réseau (3)</td><td class="num">aucune</td></tr>
+  </table>
+  <p>Puis je les ai traduits en formules :</p>
+  <p class="math"><math display="block"><msub><mi>M</mi><mtext>matière</mtext></msub><mo>=</mo><mfrac><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>c</mi><mi>i</mi></msub><msub><mi>n</mi><mi>i</mi></msub></mrow><mrow><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>c</mi><mi>i</mi></msub></mrow></mfrac></math></p>
+  <p class="math"><math display="block"><mtext>semestre validé</mtext><mspace width="0.3em"/><mo>⟺</mo><mspace width="0.3em"/><msub><mi>M</mi><mtext>générale</mtext></msub><mo>⩾</mo><mn>10</mn><mspace width="0.4em"/><mtext>et toutes les limites atteintes</mtext></math></p>
+  <p>S'ensuivent de longues heures de code sur console : calculs, alertes, sauvegarde dans un fichier, saisie robuste, etc. Puis j'ai séparé le moteur de l'affichage : le calcul ne contient plus aucun affichage, il peut donc être réutilisé ailleurs. Enfin, le passage au web : compilation du moteur en WebAssembly et page pour mobile.</p>
+
+  <h2>Architecture</h2>
+  <figure><picture><source srcset="images/sonote-architecture-sombre.jpg" media="(prefers-color-scheme: dark)"><img src="images/sonote-architecture-clair.jpg" alt="Schéma : la page web appelle le pont (pont.c) avec des nombres et des adresses de textes ; le pont et la console appellent le moteur de calcul (moteur.c), qui lit structure.txt et notes.txt" loading="lazy"></picture><figcaption>Schéma fait à la main sur l'iPad.</figcaption></figure>
+  <p><b>L'idée :</b> un seul cerveau (le moteur en C), deux interfaces (la console et le web). Le moteur ne fait ni saisie ni affichage : il renvoie uniquement des valeurs ou des codes d'erreur.</p>
+
+  <h2>Les points techniques dont je suis fier</h2>
+  <ul class="plain">
+    <li><b>Structures de données.</b> Note, Matiere et UE imbriquées ; un type Indice pour renvoyer « UE + matière ».</li>
+    <li><b>Un format de fichier pensé.</b> Les notes sont stockées avec des points-virgules, l'intitulé en dernier pour qu'il puisse contenir des espaces ; les points-virgules saisis dans un intitulé sont neutralisés pour ne pas casser le fichier.</li>
+    <li><b>Configuration par fichier.</b> Les UE, matières, coefficients et limites sont lus dans un fichier texte : je peux adapter l'appli au semestre suivant sans recompiler.</li>
+    <li><b>Saisie robuste.</b> Une mauvaise saisie (des lettres à la place d'un nombre) ne fait plus boucler le programme, grâce à la fonction <i>vider_tampon</i>.</li>
+    <li><b>Gestion d'erreurs.</b> Des codes de retour documentés ; le fichier de structure donne le numéro de la ligne fautive.</li>
+    <li><b>Du C dans le navigateur.</b> Compilation avec Emscripten ; la page ne dialogue avec le C que par des nombres et des adresses de textes.</li>
+  </ul>
+
+  <h2>Les difficultés rencontrées</h2>
+  <ul class="plain">
+    <li><b>Une alerte incomplète.</b> Elle ne signalait que la première matière fautive, ce qui ne suffit pas pour une interface. J'ai compris qu'il fallait répondre à la question « et celle-ci ? » pour chaque élément.</li>
+    <li><b>Le point-virgule</b> dans un intitulé, qui cassait le fichier.</li>
+    <li><b>L'intitulé vide</b> à cause du tampon (<i>scanf</i> puis <i>fgets</i>).</li>
+    <li><b>Les moyennes « sans note »</b>, qui ne doivent pas valoir 0.</li>
+  </ul>
+
+  <h2>Ce que j'ai appris</h2>
+  <ul class="plain">
+    <li>Structurer un programme en modules (déclarations dans un .h, code dans un .c).</li>
+    <li>Penser aux cas limites avant de coder : liste vide, numéro hors limites, fichier mal formé.</li>
+    <li>Séparer le calcul de l'affichage pour pouvoir changer d'interface.</li>
+    <li>Utiliser Git au quotidien, et lire un document réglementaire pour en tirer des règles de calcul.</li>
+    <li>Les bases de WebAssembly et du dialogue entre JavaScript et C.</li>
+  </ul>
+
+  <h2>Seul, et avec l'IA</h2>
+  <p>J'ai écrit seul, de A à Z, la version console (calculs, limites, sauvegarde, saisie), avec l'aide de quelques ressources citées en bas de page (vidéos, articles, forums, sites, manuels).</p>
+  <p>Je me dois cependant d'être transparent : pour la partie web, l'IA m'a beaucoup épaulé. N'y connaissant rien, je lui ai demandé de m'expliquer comment fonctionnaient le pont WebAssembly et la page web. J'ai relu et compris chaque partie du code.</p>
+
+  <h2>Sources</h2>
+  <ul class="plain">
+    <li><a href="https://git-scm.com/docs/git-commit#_examples" target="_blank" rel="noopener">Documentation de git commit (exemples)</a></li>
+  </ul>
+</main>
+<footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · © 2026 Soméan Yoyotte · Tous droits réservés</p></footer>
+<script src="extras.js?v=8"></script>
+</body>
+</html>
