@@ -31,7 +31,7 @@
   <p><a class="tl-link" href="https://youtu.be/aGqY4Z3S7-4" target="_blank" rel="noopener">→ Voir la démo</a></p>
 
   <h2>AirPulse</h2>
-  <p>J'en avais marre de regarder des films sans profiter de tout le potentiel de mes AirPods sur mon PC : la réduction de bruit, l'audio spatial… J'ai cherché des applications et des projets sur GitHub qui le permettaient, mais rien de concluant. J'ai donc décidé de concevoir la mienne.</p>
+  <p>Sur mon PC, je regardais mes films sans profiter de mes AirPods : pas de réduction de bruit, pas d'audio spatial. Aucune appli ni aucun projet GitHub ne le permettait vraiment, alors j'ai décidé de concevoir la mienne.</p>
   <p>Une application pour la zone de notification de Windows 11. Elle affiche la batterie de chaque écouteur et du boîtier, ouvre un widget à l'ouverture du boîtier, prévient avec une bulle quand les AirPods se connectent ou partent sur un autre appareil, met la musique en pause quand on retire un écouteur, et peut basculer automatiquement entre le PC et l'iPhone. Je l'ai testée avec mes AirPods Pro 2.</p>
   <p style="margin:18px 0 8px;font-size:15px"><b>Compétences mobilisées</b></p>
   <ul class="tags"><li>Cahier des charges</li><li>Design d'interface</li><li>Tests</li><li>Diagnostic de bugs</li><li>Bluetooth LE</li></ul>
@@ -45,7 +45,7 @@
   <p><b>Une limite repérée : un protocole fermé.</b> En testant, on a vu que les modes d'écoute (réduction de bruit, transparence) passent par un protocole propriétaire d'Apple, inaccessible aux applications Windows. Ils ne marchent qu'avec un pilote libre qui exige le mode test de Windows. J'ai choisi de le rendre facultatif : sans lui, AirPulse fonctionne quand même en Bluetooth LE.</p>
 
   <h2>AirDrop maison</h2>
-  <p>Pour m'envoyer des documents entre mon ordinateur, mon iPad et mon iPhone, je passais tout le temps par WhatsApp. C'était pénible : l'application Windows buguait souvent et je ne pouvais pas envoyer de gros fichiers. Je me suis dit : pourquoi pas créer un AirDrop pour le PC ? L'idée d'un petit serveur local m'est venue, et j'ai laissé Claude coder l'interface et le reste.</p>
+  <p>Pour passer un fichier entre mon PC, mon iPhone et mon iPad, je m'envoyais tout par WhatsApp. L'appli Windows buguait souvent et refusait les gros fichiers. J'ai eu l'idée d'un petit serveur local qui ferait office d'AirDrop pour le PC, et j'ai laissé Claude coder l'interface et le reste.</p>
   <p>Le vrai AirDrop repose sur un Wi-Fi propriétaire d'Apple que Windows ne sait pas utiliser : impossible d'en faire une copie compatible. Dans mon système, le PC héberge un petit serveur sur le Wi-Fi de la maison, et seuls les appareils jumelés peuvent s'y connecter. L'iPhone et l'iPad passent par des Raccourcis iOS, sans application à installer.</p>
   <p style="margin:18px 0 8px;font-size:15px"><b>Compétences mobilisées</b></p>
   <ul class="tags"><li>Cahier des charges</li><li>Design d'interface</li><li>Tests sur PC, iPhone et iPad</li><li>Raccourcis iOS</li><li>Réseau local</li></ul>
