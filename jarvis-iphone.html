@@ -20,7 +20,7 @@
   <ol class="timeline days">
     <li><span>Écouter</span><p>Jarvis dit « Bonjour Monsieur, je vous écoute », puis dicte ce que je dis. Si je dis « Merci Jarvis », le raccourci s'arrête.</p></li>
     <li><span>Demander</span><p>Il construit une requête JSON avec ses consignes (répondre en français, en une phrase courte, sans liste ni émoji) et tout l'historique de la conversation, puis l'envoie en POST à l'API Gemini.</p></li>
-    <li><span>Répondre</span><p>Il va chercher le texte dans la réponse JSON (<code>candidates</code> → <code>content</code> → <code>parts</code> → <code>text</code>) et le lit à voix haute.</p></li>
+    <li><span>Répondre</span><p>Il va chercher le texte dans la réponse JSON (<i>candidates</i> → <i>content</i> → <i>parts</i> → <i>text</i>) et le lit à voix haute.</p></li>
     <li><span>Retenir</span><p>Il ajoute la question et la réponse à l'historique, puis réécoute. La boucle peut tourner 40 fois.</p></li>
   </ol>
 
