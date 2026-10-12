@@ -101,3 +101,9 @@ html.ready .proj-title { opacity: 1; }
 .pres .cta:hover { text-decoration: none; background: #333; }
 @media (prefers-color-scheme: dark) { .pres .cta { background: #f5f5f5; color: #111; } .pres .cta:hover { background: #fff; } }
 @media (max-width: 700px) { .pres .cta { font-size: 14px; padding: 8px 17px; margin-top: clamp(32px, 11vh, 80px); } }
+
+/* Pimp my PC : losanges hypnotiques au survol */
+.thumb.hypno { position: relative; overflow: hidden; background: #f4be1e url(images/pimp-couverture.jpg) center / cover; }
+.thumb.hypno canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.thumb.hypno img { position: relative; object-fit: contain; padding: 3% 4%; box-sizing: border-box; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.card:hover .thumb.hypno img, .thumb.hypno.spin img { transform: scale(1.04); }

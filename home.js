@@ -555,3 +555,48 @@
   if (H.classList.contains('intro-run')) start();
   else Promise.race([D.fonts.load('200px Anton', 'SOMÉAN'), sleep(2500)]).catch(() => {}).then(start);
 })();
+
+/* Pimp my PC : losanges qui partent du centre, en boucle, au survol */
+(() => {
+  const th = document.querySelector('.thumb.hypno');
+  const cv = th && th.querySelector('canvas');
+  if (!cv || !cv.getContext) return;
+  const ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+  const COLORS = ['#d4aa1d', '#fde346', '#f4be1e'];
+  let w = 0, h = 0, t = 0, last = 0, raf = 0, on = false;
+  const size = () => {
+    const r = th.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    w = r.width; h = r.height; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw();
+  };
+  const hex = (cx, cy, R) => {
+    const k = R * 0.866, c = R * 0.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - R, cy); ctx.lineTo(cx - c, cy - k); ctx.lineTo(cx + c, cy - k);
+    ctx.lineTo(cx + R, cy); ctx.lineTo(cx + c, cy + k); ctx.lineTo(cx - c, cy + k);
+    ctx.closePath(); ctx.fill();
+  };
+  const draw = () => {
+    if (!w) return;
+    const band = w * 0.062, cx = w / 2, cy = h / 2;
+    const n = Math.ceil(Math.hypot(w, h) / band) + 2, f = t % 1, step = Math.floor(t);
+    for (let k = n; k >= 0; k--) {
+      ctx.fillStyle = COLORS[(((k - step) % 3) + 3) % 3];
+      hex(cx, cy, (k + f) * band);
+    }
+  };
+  const loop = now => {
+    t += Math.min(now - last, 50) / 1000 * 0.9; last = now; draw();
+    raf = on ? requestAnimationFrame(loop) : 0;
+  };
+  const play = () => { if (reduce || on) return; on = true; th.classList.add('spin'); last = performance.now(); raf = requestAnimationFrame(loop); };
+  const stop = () => { on = false; th.classList.remove('spin'); };
+  size(); addEventListener('resize', size);
+  const card = th.closest('.card');
+  if (fine) { card.addEventListener('mouseenter', play); card.addEventListener('mouseleave', stop); }
+  else if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? play() : stop())), { threshold: .75 }).observe(th);
+  }
+})();
