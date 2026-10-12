@@ -59,7 +59,7 @@
 
     // Taille dans le bandeau : on réduit si « Projets » au centre et le titre à droite se touchent
     m.ic = mob ? 20 : 22; m.igap = mob ? 10 : 12;
-    m.iconsW = 3 * m.ic + 2 * m.igap + (mob ? 12 : 16);
+    m.iconsW = icons.length * m.ic + (icons.length - 1) * m.igap + (mob ? 12 : 16);
     m.pbig = clamp(.085 * vw, 48, 96);
     const pInk = inkBox(`400 ${PBASE}px Anton`, 'P', PBASE);
     m.pW = proj.offsetWidth; m.pBase = pInk.base; m.pAsc = pInk.asc;
@@ -159,7 +159,7 @@
 
     // Logos
     icons.forEach((a, i) => {
-      const ki = clamp((k - (2 - i) * .14) / .72);
+      const ki = clamp((k - (icons.length - 1 - i) * (.28 / Math.max(1, icons.length - 1))) / .72);
       a.classList.toggle('on', ki > .5 && p1 > .98);
       a.style.opacity = ki.toFixed(3);
       const x = tL - M.iconsW + i * (M.ic + M.igap) - (1 - ki) * 10;
