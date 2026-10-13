@@ -181,7 +181,8 @@ th.num { text-align: right; }
 .book2 .leaf.settled .face.back { transform: none; }
 @media (prefers-reduced-motion: reduce) { .book2, .book2 .leaf { transition: none; } .book-flip.wob, .game-text.shake, .thermo.jolt { animation: none; } }
 @media (prefers-color-scheme: dark) { .open-hint, .game-text { --hint: #f2b632; } }
-.card-vide { position: relative; min-height: 320px; background: repeating-linear-gradient(45deg, #2a2a2a 0 14px, #262626 14px 28px); }
+.card-vide { position: relative; }
+.thumb.chantier { padding: 0; background: repeating-linear-gradient(45deg, #2a2a2a 0 14px, #262626 14px 28px); }
 .rubans { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; }
 .ruban { position: absolute; left: 50%; top: 50%; width: 160%; height: 34px; transform: translate(-50%,-50%) rotate(calc(var(--a, 30deg) * var(--s, 1))); background: repeating-linear-gradient(-45deg, #f5c400 0 22px, #111 22px 44px); box-shadow: 0 4px 12px rgba(0,0,0,.35); }
 .ruban.r2 { --s: -1; }
