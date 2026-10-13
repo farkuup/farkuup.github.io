@@ -600,3 +600,17 @@
     new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? play() : stop())), { threshold: .75 }).observe(th);
   }
 })();
+
+// Carte « Nouveau projet » : les deux rubans vont d'un coin à l'autre
+(function () {
+  const card = document.querySelector('.card-vide');
+  if (!card) return;
+  const place = () => {
+    const w = card.offsetWidth, h = card.offsetHeight;
+    card.style.setProperty('--a', Math.atan2(h, w) + 'rad');
+    card.querySelectorAll('.ruban').forEach(r => { r.style.width = Math.hypot(w, h) + 80 + 'px'; });
+  };
+  place();
+  addEventListener('resize', place);
+  if ('ResizeObserver' in window) new ResizeObserver(place).observe(card);
+})();
