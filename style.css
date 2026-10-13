@@ -184,6 +184,6 @@ th.num { text-align: right; }
 .card-vide { position: relative; }
 .thumb.chantier { padding: 0; background: repeating-linear-gradient(45deg, #2a2a2a 0 14px, #262626 14px 28px); }
 .rubans { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 2; }
-.ruban { position: absolute; left: 50%; top: 50%; width: 160%; height: 34px; transform: translate(-50%,-50%) rotate(calc(var(--a, 30deg) * var(--s, 1))); background: repeating-linear-gradient(-45deg, #f5c400 0 22px, #111 22px 44px); box-shadow: 0 4px 12px rgba(0,0,0,.35); }
+.ruban { position: absolute; left: 50%; top: 50%; width: 160%; height: 20px; transform: translate(-50%,-50%) rotate(calc(var(--a, 30deg) * var(--s, 1))); background: repeating-linear-gradient(-45deg, #f5c400 0 14px, #111 14px 28px); box-shadow: 0 4px 12px rgba(0,0,0,.35); }
 .ruban.r2 { --s: -1; }
 
