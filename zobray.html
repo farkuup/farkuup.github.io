@@ -8,7 +8,24 @@
 <link rel="stylesheet" href="style.css?v=15">
 <link rel="stylesheet" href="extras.css?v=6">
 <style>
-  .rapport { display: inline-block; margin: 6px 0 4px; font-weight: 600; }
+  .rapport { display: flex; align-items: center; gap: 16px; margin: 28px 0 8px; padding: 16px 18px; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 14px; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+  .rapport:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.08); border-color: var(--fg); }
+  .rapport svg { width: 34px; height: 34px; flex: none; color: var(--fg); }
+  .rapport .t { display: block; font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
+  .rapport .s { display: block; font-size: 14px; color: var(--muted); }
+  .rapport .go { margin-left: auto; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; font-size: 18px; transition: transform .15s ease; }
+  .rapport:hover .go { transform: translateX(3px); }
+  .scroll { overflow-x: auto; margin: 8px 0 12px; }
+  .scroll table { margin: 0; min-width: 560px; font-size: 14px; }
+  .scroll td:first-child, .scroll th:first-child { white-space: nowrap; color: var(--muted); font-weight: 600; }
+  details.amelio { margin: 4px 0 20px; }
+  details.amelio summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); user-select: none; }
+  details.amelio summary::-webkit-details-marker { display: none; }
+  details.amelio summary::before { content: "▼"; font-size: 11px; transition: transform .2s ease; }
+  details.amelio[open] summary::before { transform: rotate(180deg); }
+  details.amelio summary:hover { border-color: var(--fg); }
+  h3 { font-size: 18px; margin: 26px 0 6px; letter-spacing: -.01em; }
+  tr.retenu td { font-weight: 600; color: var(--fg) !important; background: color-mix(in srgb, var(--accent) 8%, transparent); }
   .math { text-align: center; margin: 18px 0; font-size: 20px; }
   .math math { font-size: 1.15em; }
 </style>
@@ -16,11 +33,12 @@
 <body class="page">
 <main class="wrap narrow">
   <a class="back" href="index.html">← Tous les projets</a>
-  <p><a class="rapport" href="docs/Rapport-Zobray.pdf">Lien vers le rapport complet →</a></p>
   <p class="kicker">Projet perso · 2026 · En cours</p>
   <h1><i>Zobray</i></h1>
   <p class="lead">Un bras robotique de bureau à 6 axes, inspiré de DUM-E, le bras qui assiste Tony Stark dans <i>Iron Man</i>. Son nom vient du créole : « squelette ».</p>
   <ul class="tags big"><li>ESP32</li><li>PCA9685</li><li>Servomoteurs</li><li>Impression 3D</li><li>Calcul de couple</li></ul>
+
+  <a class="rapport" href="docs/Rapport-Zobray.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 1h8.6L20 6.2v15.3a1.5 1.5 0 0 1-1.5 1.5H6.2a1.5 1.5 0 0 1-1.5-1.5v-19A1.5 1.5 0 0 1 6.2 1z"/><path d="M14.6 1.2v4.3a.8.8 0 0 0 .8.8h4.4M8 11h8.6M8 14.6h8.6M8 18.2h5.6" fill="none" stroke="var(--card)" stroke-width="1.4" stroke-linecap="round"/></svg><span><span class="t">Lien vers le rapport complet</span><span class="s">PDF · 6 pages · cahier des charges, calculs, achats</span></span><span class="go" aria-hidden="true">→</span></a>
 
   <h2>L'idée</h2>
   <p>Dans la fiction, DUM-E réagit, prend des initiatives et aide Stark dans ses créations. Les estimations de son coût tournent autour de 150 000 € : je veux en faire une version réduite et abordable.</p>
@@ -30,29 +48,57 @@
   <p>Des bras existent déjà, comme les Waveshare RoArm-M2-S (208,99 €) ou RoArm-M1 (329,99 €). Mais ils coûtent jusqu'à trois fois mon budget, et surtout ils ne me laisseraient pas concevoir mon propre robot. Le but est aussi d'apprendre : calculs, mesures, conception et impression. Un kit préassemblé ne m'apporterait pas cette expérience.</p>
 
   <h2>Le cahier des charges</h2>
-  <ul>
-    <li><b>Soulever</b> une canette pleine (350 g) bras tendu, à 22 cm, et la tenir 10 s.</li>
-    <li><b>6 axes</b> : 5 articulations (base, épaule, coude, poignet haut/bas, rotation du poignet) et une pince.</li>
-    <li><b>Une pince à trois doigts</b> qui s'ouvre d'au moins 7 cm.</li>
-    <li><b>Une commande depuis une page web</b>, sur téléphone ou ordinateur, avec moins de 0,5 s de réponse.</li>
-    <li><b>Un bouton d'arrêt d'urgence</b> qui stoppe le bras en moins d'une seconde.</li>
-    <li><b>Moins de 100 €</b> au total.</li>
-  </ul>
+  <div class="scroll"><table>
+      <tr><th>N°</th><th>Exigences</th><th>Valeurs mesurables</th><th>Critères de validation</th></tr>
+      <tr><td>E1</td><td>Être capable de soulever un objet</td><td>Charge utile de 350g minimum (tasse, canette remplie)</td><td>Soulever une canette pleine bras tendu (22 cm), la tenir 10 s sans décrocher ni que le bras ne descende. 10 essais, 10 réussis.</td></tr>
+      <tr><td>E2</td><td>Nombre d’axes</td><td>6 axes : 5 articulations (base, épaule, coude, poignet haut/bas, rotation poignet) + pince</td><td>Vérifier qu’il tourne sur toute sa plage</td></tr>
+      <tr><td>E3</td><td>Attraper et déplacer des objets</td><td>Pinces trois doigts (ouverture d’au moins 7cm : diamètre d’une canette 6,6cm)</td><td>Mesurer l’ouverture au pied à coulisse. Déplacer la canette d’un point A à un point B distants de 20 cm : 9 réussites sur 10.</td></tr>
+      <tr><td>E4</td><td>Portée</td><td>Environ 22cm (épaule-coude 12 cm + avant-bras 10cm)</td><td>Mesurer la distance entre l’axe et le bout de la pince le bras tendu</td></tr>
+      <tr><td>E5</td><td>Faible coût</td><td>-100€ au total</td><td></td></tr>
+      <tr><td>E6</td><td>Interface de communication</td><td>Commander le bras depuis une page Web (ESP32 en Wifi)</td><td>Depuis mon téléphone, mon ordinateur. Temps de réponse &lt;0,5s</td></tr>
+      <tr><td>E7</td><td>Alimentation</td><td>Secteur 230V vers bloc 5 à 6V, 10A minimum</td><td>Mesurer au multimètre la tension aux bornes des servos pendant les mouvements (E1)</td></tr>
+      <tr><td>E8</td><td>Dimensions</td><td>Base de 10×10 cm au maximum (tient sur le bureau sans prendre trop de place)<br><i>PS : Pour réduire l’espace je pense opter pour un serre-joint.</i></td><td>Pendant E1, ne constater aucun tremblement. La base ne doit pas bouger.</td></tr>
+      <tr><td>E9</td><td>Précision</td><td>±1 cm</td><td></td></tr>
+      <tr><td>E10</td><td>Motorisation / couples suffisants</td><td><i>ref. Choix des matériaux</i></td><td>Aucun servo ne doit forcer (bruit, tremblement, chauffe)</td></tr>
+      <tr><td>E11</td><td>Sécurité</td><td>Bouton d’arrêt d’urgence<br>Limite d’angle</td><td>Après avoir appuyé le bras s’arrête &lt;1s</td></tr>
+  </table></div>
+  <details class="amelio">
+    <summary>Améliorations</summary>
+    <div class="scroll"><table>
+      <tr><th>N°</th><th>Améliorations</th><th>Valeurs mesurables</th><th>Critères de validation</th></tr>
+      <tr><td>A1</td><td>Pouvoir jouer aux échecs avec des niveaux de difficulté variés (mesurable en point Elo)</td><td>Géré par Stockfish, le bras bouge simplement les pièces.</td><td>Jouer une partie complète sans aucune pièce renversée</td></tr>
+      <tr><td>A2</td><td>Reconnaître des objets (gommes, stylo, Raspberry, etc.)</td><td>Caméra embarquée, une dizaine d’objets reconnus</td><td>+80% de réussite (sur 20 essais)</td></tr>
+      <tr><td>A3</td><td>Comprendre les ordres et les interpréter</td><td>Commandes à la voix. API ? Micro intégrée ? Via l’interface ?</td><td>10 ordres simples bien exécutés</td></tr>
+      <tr><td>A4</td><td>Proposer des solutions, des initiatives</td><td></td><td></td></tr>
+      <tr><td>A5</td><td>Dessiner, la pince tient un stylo.</td><td></td><td>Dessiner une maison sans rature et sans dépasser</td></tr>
+    </table></div>
+  </details>
 
-  <h2>Choisir les servomoteurs</h2>
+  <h2>Choix des matériaux</h2>
+  <h3>Servomoteurs</h3>
   <p>Une canette pèse environ 350 g ; avec la pince, j'arrondis à 0,5 kg. Bras tendu à 22 cm, l'épaule doit tenir un couple d'environ :</p>
   <p class="math"><math display="block"><mi>C</mi><mo>=</mo><mi>m</mi><mo>·</mo><mi>L</mi><mo>=</mo><mn>0,5</mn><mtext>&#8239;kg</mtext><mo>×</mo><mn>22</mn><mtext>&#8239;cm</mtext><mo>≈</mo><mn>11</mn><mtext>&#8239;kg·cm</mtext></math></p>
-  <p>Je double cette valeur pour garder de la marge. Après avoir comparé six modèles, j'ai retenu un <b>DS3225</b> (25 kg·cm) pour l'épaule et des <b>MG996R</b> (13 kg·cm) pour les autres articulations.</p>
+  <p>Je double cette valeur pour garder de la marge, puis je compare les modèles :</p>
+  <div class="scroll"><table>
+      <tr><th>Servos</th><th>Couple</th><th>Masse</th><th>Prix</th><th>Remarques</th></tr>
+      <tr><td>MG995</td><td>9–10 kg·cm</td><td>55 g</td><td>3 €</td><td>valeur de couple trop juste</td></tr>
+      <tr class="retenu"><td>MG996R</td><td>10–11 kg·cm</td><td>55 g</td><td>3,3 €</td><td>qualité variables</td></tr>
+      <tr><td>MG946R</td><td>10–13 kg·cm</td><td>55 g</td><td>8-10 €</td><td>roulement à billes</td></tr>
+      <tr><td>DS3218</td><td>20 kg·cm</td><td>60 g</td><td>12-15 €</td><td></td></tr>
+      <tr class="retenu"><td>DS3225</td><td>25 kg·cm</td><td>60 g</td><td>14-18 €</td><td>+de marge mais + cher</td></tr>
+      <tr><td>STS3215</td><td>20 kg·cm</td><td>55 g</td><td>15-20 €</td><td>retour de position mais il faut un contrôleur à part</td></tr>
+  </table></div>
+  <p>J'ai retenu un <b>DS3225</b> (25 kg·cm) pour l'épaule et des <b>MG996R</b> pour les autres articulations.</p>
 
-  <h2>Le cerveau et l'alimentation</h2>
-  <p>Le bras est piloté par un <b>ESP32</b> : Wi-Fi et Bluetooth intégrés, plus de puissance qu'un Arduino Uno, et un prix de quelques euros. Il passe par un driver <b>PCA9685</b>, qui génère les signaux des six servos pendant que l'ESP32 gère le Wi-Fi. Cela évite les tremblements et sépare l'alimentation : les servos tirent leur courant sur le PCA9685, pas sur l'ESP32, qui redémarrerait dès qu'un servo force.</p>
-  <p>En estimant le courant de chaque servo selon sa charge, j'arrive à environ <b>6,5 A</b> dans le pire cas. J'ai donc choisi une alimentation <b>6 V / 10 A</b>, utilisée à 65 % de sa capacité.</p>
+  <h3>Cerveau</h3>
+  <p>Le bras est piloté par un <b>ESP32</b> : Wi-Fi et Bluetooth intégrés, plus de puissance qu'un Arduino Uno, et un prix de quelques euros. Il passe par un driver <b>PCA9685</b>, qui génère les signaux des six servos pendant que l'ESP32 gère le Wi-Fi. Cela évite les tremblements, réduit le nombre de fils et laisse 16 ports pour ajouter des axes plus tard.</p>
+
+  <h3>Alimentation</h3>
+  <p>Les servos tirent leur courant sur le PCA9685, pas sur l'ESP32, qui redémarrerait dès qu'un servo force. En estimant le courant de chaque servo selon sa charge, j'arrive à environ <b>6,5 A</b> dans le pire cas, bras tendu avec la canette. J'ai donc choisi une alimentation <b>6 V / 10 A</b>, utilisée à 65 % de sa capacité. 6 V, c'est le meilleur compromis entre la plage des servos (jusqu'à 6,8 V), leur couple qui augmente avec la tension, et le PCA9685, recommandé jusqu'à 6 V.</p>
 
   <h2>Le budget</h2>
   <p>Environ 94 € de composants : servos, ESP32, driver, alimentation, bouton d'arrêt d'urgence et câblage. Le détail, avec les photos de chaque pièce, est dans le <a href="docs/Rapport-Zobray.pdf">rapport complet</a>.</p>
 
-  <h2>Compétences mobilisées</h2>
-  <p>Rédiger un cahier des charges avec des critères mesurables, calculer des couples et des courants, comparer et choisir des composants, concevoir l'électronique de puissance, puis viennent la conception 3D, l'impression et la programmation de l'interface web.</p>
 </main>
 <footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · © 2026 Soméan Yoyotte · Tous droits réservés</p></footer>
 <script src="extras.js?v=9"></script>
