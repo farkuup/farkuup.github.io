@@ -187,7 +187,7 @@
   const EGGS = [
     ['Le mode Ambilight', 'Tapez le code Konami au clavier :<span class="keys"><kbd>↑</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>←</kbd><kbd>→</kbd><kbd>B</kbd><kbd>A</kbd></span>Sur téléphone, touchez 5 fois « Projets » dans le bandeau.', 'Allumer', () => { closeEggs(); setTimeout(toggleAmbilight, 250); }],
     ['Jarvis', 'Tapez « jarvis » au clavier, n\'importe où sur la page. Il connaît tout de moi et vous aidera si vous avez besoin.', 'Ouvrir Jarvis', () => { closeEggs(); setTimeout(openJarvis, 250); }],
-    ['Le bras robotique', 'Sur la carte « Bras robotique 4 axes », il suit votre souris ou votre doigt. Cliquez pour qu\'il serre la pince.', 'Le voir', () => { closeEggs(); const c = $('canvas.arm'); if (c) c.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); else location.href = 'index.html#bras'; }],
+    ['Le bras robotique', 'Sur la carte du bras robotique Zobray, il suit votre souris ou votre doigt. Cliquez pour qu\'il serre la pince.', 'Le voir', () => { closeEggs(); const c = $('canvas.arm'); if (c) c.closest('.card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); else location.href = 'index.html#bras'; }],
     ['Soméan vous appelle !', 'Répondez à l\'appel en cliquant sur mon nom en haut à droite.'],
     ['« portfolio » change d\'écriture', 'Il prend une nouvelle police à chaque retour sur l\'accueil. Cliquez dessus pour revoir l\'intro.', 'Revoir l\'intro', () => { closeEggs(); setTimeout(replayIntro, 250); }],
     ['Le carnet de l\'Ambilight', 'Feuilletez le carnet de bord jusqu\'à la dernière page : un petit jeu vous attend.', 'Aller au carnet', 'ambilight.html#carnet'],
