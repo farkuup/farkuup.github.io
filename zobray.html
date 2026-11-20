@@ -44,7 +44,7 @@
   .yt-chaine { display: flex; align-items: center; gap: 10px; margin-right: auto; color: var(--fg); }
   .yt-chaine:hover, .yt-chaine:hover * { text-decoration: none; }
   .yt-chaine:hover .yt-nom { text-decoration: underline; }
-  .yt-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; font-weight: 700; font-size: 17px; flex: none; }
+  .yt-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: var(--fg); color: var(--bg); display: grid; place-items: center; font-weight: 700; font-size: 17px; flex: none; }
   .yt-txt { display: flex; flex-direction: column; justify-content: center; height: 40px; }
   .yt-nom { font-weight: 600; line-height: 1.15; }
   .yt-abo { font-size: 13px; color: var(--muted); line-height: 1.15; }
@@ -87,7 +87,7 @@
     <div class="yt-ecran"><div class="rubans" aria-hidden="true"><div class="ruban r1"></div><div class="ruban r2"></div></div><span class="etat">Vlog en cours de tournage</span></div>
     <h2 class="yt-titre">Je construis DUM-E pour moins de 100&nbsp;€</h2>
     <div class="yt-barre">
-      <a class="yt-chaine" href="https://www.youtube.com/@somean_yo" target="_blank" rel="noopener"><span class="yt-avatar" aria-hidden="true">S</span><span class="yt-txt"><span class="yt-nom">Soméan</span><span class="yt-abo">3M d'abonnés</span></span></a>
+      <a class="yt-chaine" href="https://www.youtube.com/@somean_yo" target="_blank" rel="noopener"><img class="yt-avatar" src="images/yt-avatar.jpg" alt="" width="40" height="40"><span class="yt-txt"><span class="yt-nom">Soméan</span><span class="yt-abo">3M d'abonnés</span></span></a>
       <div class="yt-actions">
         <button class="yt-btn like" type="button" aria-pressed="false" aria-label="J'aime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 10v11H3V10h4zM7 10l4-8c1.7 0 2.8 1.3 2.4 3L12.6 9H19a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 17.6 21H7"/></svg>1,2 Md</button>
         <button class="yt-btn rond partage" type="button" aria-label="Partager : copier le lien"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 4l7 7-7 7v-4c-5 0-8 1.5-11 5 1-6 4-10 11-11V4z"/></svg><span class="yt-toast" role="status">Lien copié !</span></button>
