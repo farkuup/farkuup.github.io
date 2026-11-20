@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zobray · Soméan Yoyotte</title>
-<meta name="description" content="Zobray, un bras robotique de bureau à 6 axes inspiré de DUM-E (Iron Man) : cahier des charges, choix des servomoteurs, ESP32 et PCA9685, pour moins de 100 €.">
+<meta name="description" content="Zobray, mon bras robotique de bureau à 6 axes inspiré de DUM-E (Iron Man) : ESP32, six servomoteurs et pièces imprimées en 3D, pour moins de 100 €.">
 <link rel="stylesheet" href="style.css?v=15">
 <link rel="stylesheet" href="extras.css?v=6">
 <style>
@@ -16,24 +16,42 @@
   .rapport .s { display: block; font-size: 14px; color: var(--muted); }
   .rapport .go { margin-left: auto; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; font-size: 18px; transition: transform .15s ease; }
   .rapport:hover .go { transform: translateX(3px); }
-  .scroll { overflow-x: auto; margin: 8px 0 12px; }
-  .scroll table { margin: 0; min-width: 560px; font-size: 14px; }
-  .scroll td:first-child, .scroll th:first-child { white-space: nowrap; color: var(--muted); font-weight: 600; }
-  details.amelio { margin: 4px 0 20px; }
-  details.amelio summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); user-select: none; }
-  details.amelio summary::-webkit-details-marker { display: none; }
-  details.amelio summary::before { content: "▼"; font-size: 11px; transition: transform .2s ease; }
-  details.amelio[open] summary::before { transform: rotate(180deg); }
-  details.amelio summary:hover { border-color: var(--fg); }
   .madras { position: relative; isolation: isolate; white-space: nowrap; }
   .madras::before { content: ""; position: absolute; z-index: -1; left: -.12em; right: -.12em; bottom: .02em; height: .62em; border-radius: 2px; transform: rotate(-1.2deg);
     background:
       repeating-linear-gradient(90deg, rgba(200,30,45,.5) 0 4px, transparent 4px 11px, rgba(0,130,70,.4) 11px 13px, transparent 13px 22px),
       repeating-linear-gradient(0deg, rgba(200,30,45,.5) 0 3px, transparent 3px 7px, rgba(0,130,70,.4) 7px 8px, transparent 8px 12px),
       #ffc42e; opacity: .85; }
-  h3 { font-size: 18px; margin: 26px 0 6px; letter-spacing: -.01em; }
-  .math { text-align: center; margin: 18px 0; font-size: 20px; }
-  .math math { font-size: 1.15em; }
+  .zb-hero { border-radius: 18px; overflow: hidden; aspect-ratio: 21 / 9; margin: 22px 0 6px; }
+  .zb-hero span { align-self: flex-end; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 26px 0 8px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 14px; }
+  .stat b { display: block; font-size: 30px; line-height: 1.1; letter-spacing: -.02em; }
+  .stat span { display: block; font-size: 13.5px; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+  .duel { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; margin: 20px 0; }
+  .duel div { text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 10px; }
+  .duel b { display: block; font-size: 34px; letter-spacing: -.02em; line-height: 1.1; }
+  .duel span { font-size: 14px; color: var(--muted); }
+  .duel .vs { font-size: 22px; color: var(--muted); background: none; border: 0; padding: 0; }
+  .duel .win { border-color: var(--fg); }
+  .chaine { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 18px 0; font-size: 14.5px; }
+  .chaine span { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-weight: 600; }
+  .chaine i { color: var(--muted); font-style: normal; }
+  .timeline.etapes li { grid-template-columns: 1fr; padding-bottom: 14px; }
+  .timeline.etapes li.fait::before { background: var(--fg); }
+  .timeline.etapes li.futur::before { background: var(--bg); border: 2px solid var(--line); }
+  .timeline.etapes li.futur p { color: var(--muted); }
+  .scroll { overflow-x: auto; margin: 8px 0 12px; }
+  .scroll table { margin: 0; min-width: 560px; font-size: 14px; }
+  .scroll td:first-child, .scroll th:first-child { white-space: nowrap; color: var(--muted); font-weight: 600; }
+  details.amelio { margin: 10px 0 20px; }
+  details.amelio summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); user-select: none; }
+  details.amelio summary::-webkit-details-marker { display: none; }
+  details.amelio summary::before { content: "▼"; font-size: 11px; transition: transform .2s ease; }
+  details.amelio[open] > summary::before { transform: rotate(180deg); }
+  details.amelio summary:hover { border-color: var(--fg); }
+  .math { text-align: center; margin: 14px 0; font-size: 20px; }
+  @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } .stat b { font-size: 26px; } .zb-hero { aspect-ratio: 16 / 10; } .duel b { font-size: 28px; } }
 </style>
 </head>
 <body class="page">
@@ -44,16 +62,45 @@
   <p class="lead">Un bras robotique de bureau à 6 axes, inspiré de DUM-E, le bras qui assiste Tony Stark dans <i>Iron Man</i>. Son nom vient du <span class="madras">créole</span> : « squelette ».</p>
   <ul class="tags big"><li>ESP32</li><li>Servomoteurs</li><li>Impression 3D</li></ul>
 
+  <div class="thumb t1 arm-thumb zb-hero"><span>Photos à venir · en attendant, il suit votre souris</span><canvas class="arm" aria-hidden="true"></canvas></div>
+
   <a class="rapport" href="docs/Rapport-Zobray.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 1h8.6L20 6.2v15.3a1.5 1.5 0 0 1-1.5 1.5H6.2a1.5 1.5 0 0 1-1.5-1.5v-19A1.5 1.5 0 0 1 6.2 1z"/><path d="M14.6 1.2v4.3a.8.8 0 0 0 .8.8h4.4M8 11h8.6M8 14.6h8.6M8 18.2h5.6" fill="none" stroke="var(--card)" stroke-width="1.4" stroke-linecap="round"/></svg><span><span class="t">Lien vers le rapport complet</span><span class="s">PDF · 6 pages</span></span><span class="go" aria-hidden="true">→</span></a>
 
-  <h2>L'idée</h2>
-  <p>Dans la fiction, DUM-E réagit, prend des initiatives et aide Stark dans ses créations. Les estimations de son coût tournent autour de 150 000 € : je veux en faire une version réduite et abordable.</p>
-  <p>Les IA nous assistent déjà au quotidien, mais elles restent dans le virtuel. Je veux un assistant physique, posé sur mon bureau, capable d'attraper, soulever et déplacer des objets. À terme, il pourrait m'apporter des composants, jouer aux échecs, dessiner, et rejoindre mon projet Jarvis.</p>
+  <h2>150 000 € dans le film. Moins de 100 € sur mon bureau.</h2>
+  <p>Dans <i>Iron Man</i>, DUM-E aide Stark dans ses créations. Les IA nous assistent déjà au quotidien, mais elles restent coincées dans l'écran : je veux un assistant qui agit pour de vrai, posé sur mon bureau. Des kits existent (Waveshare, de 209 à 330 €), mais je veux le concevoir moi-même, du calcul jusqu'à l'impression.</p>
 
-  <h2>Pourquoi ne pas acheter un kit ?</h2>
-  <p>Des bras existent déjà, comme les Waveshare RoArm-M2-S (208,99 €) ou RoArm-M1 (329,99 €). Mais ils coûtent jusqu'à trois fois mon budget, et surtout ils ne me laisseraient pas concevoir mon propre robot. Le but est aussi d'apprendre : calculs, mesures, conception et impression. Un kit préassemblé ne m'apporterait pas cette expérience.</p>
+  <div class="stats">
+    <div class="stat"><b>6</b><span>axes : 5 articulations et une pince</span></div>
+    <div class="stat"><b>350 g</b><span>soulevés bras tendu, à 22 cm</span></div>
+    <div class="stat"><b>&lt; 0,5 s</b><span>de réponse depuis mon téléphone</span></div>
+    <div class="stat"><b>≈ 94 €</b><span>de composants au total</span></div>
+  </div>
 
-  <h2>Le cahier des charges</h2>
+  <h2>Le choix clé : l'épaule</h2>
+  <p>C'est elle qui porte tout le bras. Avec la canette et la pince (0,5 kg) au bout de 22 cm, elle doit tenir :</p>
+  <p class="math"><math display="block"><mi>C</mi><mo>=</mo><mi>m</mi><mo>·</mo><mi>L</mi><mo>=</mo><mn>0,5</mn><mtext>&#8239;kg</mtext><mo>×</mo><mn>22</mn><mtext>&#8239;cm</mtext><mo>≈</mo><mn>11</mn><mtext>&#8239;kg·cm</mtext></math></p>
+  <div class="duel">
+    <div><b>11</b><span>kg·cm nécessaires</span></div>
+    <div class="vs">→</div>
+    <div class="win"><b>25</b><span>kg·cm avec un DS3225</span></div>
+  </div>
+  <p>Plus du double, pour garder de la marge. Les autres articulations, moins chargées, prennent des MG996R, bien moins chers.</p>
+
+  <h2>Comment il est piloté</h2>
+  <div class="chaine"><span>Téléphone</span><i>— Wi-Fi →</i><span>ESP32</span><i>→</i><span>PCA9685</span><i>→</i><span>6 servos</span></div>
+  <p>L'ESP32 reçoit les ordres en Wi-Fi et confie les six signaux au driver PCA9685 : plus de tremblements, et les servos ont leur propre alimentation de 6 V / 10 A. Dans le pire cas, ils tirent environ 6,5 A.</p>
+
+  <h2>Où j'en suis</h2>
+  <ol class="timeline etapes">
+    <li class="fait"><p><b>Cahier des charges</b> : 11 exigences mesurables.</p></li>
+    <li class="fait"><p><b>Choix des composants</b> : servos, ESP32, driver, alimentation.</p></li>
+    <li class="futur"><p><b>Conception 3D</b> des pièces, puis impression au Fablab.</p></li>
+    <li class="futur"><p><b>Montage et tests</b> : la canette tenue 10 s, bras tendu.</p></li>
+    <li class="futur"><p><b>Et ensuite</b> : jouer aux échecs, dessiner, reconnaître des objets, rejoindre Jarvis.</p></li>
+  </ol>
+
+  <details class="amelio">
+    <summary>Voir le cahier des charges</summary>
   <div class="scroll"><table>
       <tr><th>N°</th><th>Exigences</th><th>Valeurs mesurables</th><th>Critères de validation</th></tr>
       <tr><td>E1</td><td>Être capable de soulever un objet</td><td>Charge utile de 350g minimum (tasse, canette remplie)</td><td>Soulever une canette pleine bras tendu (22 cm), la tenir 10 s sans décrocher ni que le bras ne descende. 10 essais, 10 réussis.</td></tr>
@@ -79,22 +126,7 @@
       <tr><td>A5</td><td>Dessiner, la pince tient un stylo.</td><td></td><td>Dessiner une maison sans rature et sans dépasser</td></tr>
     </table></div>
   </details>
-
-  <h2>Choix des matériaux</h2>
-  <h3>Servomoteurs</h3>
-  <p>Une canette pèse environ 350 g ; avec la pince, j'arrondis à 0,5 kg. Bras tendu à 22 cm, l'épaule doit tenir un couple d'environ :</p>
-  <p class="math"><math display="block"><mi>C</mi><mo>=</mo><mi>m</mi><mo>·</mo><mi>L</mi><mo>=</mo><mn>0,5</mn><mtext>&#8239;kg</mtext><mo>×</mo><mn>22</mn><mtext>&#8239;cm</mtext><mo>≈</mo><mn>11</mn><mtext>&#8239;kg·cm</mtext></math></p>
-  <p>Je double cette valeur pour garder de la marge. Pour l'épaule, qui porte tout le bras, j'ai retenu un <b>DS3225</b> : 25 kg·cm, soit plus de deux fois le besoin, pour 14 à 18 €. Pour les autres articulations, moins chargées, des <b>MG996R</b> (10 à 11 kg·cm) suffisent : ce sont les moins chers (3,3 €), et j'en prends un de rechange car leur qualité est variable.</p>
-
-  <h3>Cerveau</h3>
-  <p>Le bras est piloté par un <b>ESP32</b> : Wi-Fi et Bluetooth intégrés, plus de puissance qu'un Arduino Uno, et un prix de quelques euros. Il passe par un driver <b>PCA9685</b>, qui génère les signaux des six servos pendant que l'ESP32 gère le Wi-Fi. Cela évite les tremblements, réduit le nombre de fils et laisse 16 ports pour ajouter des axes plus tard.</p>
-
-  <h3>Alimentation</h3>
-  <p>Les servos tirent leur courant sur le PCA9685, pas sur l'ESP32, qui redémarrerait dès qu'un servo force. En estimant le courant de chaque servo selon sa charge, j'arrive à environ <b>6,5 A</b> dans le pire cas, bras tendu avec la canette. J'ai donc choisi une alimentation <b>6 V / 10 A</b>, utilisée à 65 % de sa capacité. 6 V, c'est le meilleur compromis entre la plage des servos (jusqu'à 6,8 V), leur couple qui augmente avec la tension, et le PCA9685, recommandé jusqu'à 6 V.</p>
-
-  <h2>Le budget</h2>
-  <p>Environ 94 € de composants : servos, ESP32, driver, alimentation, bouton d'arrêt d'urgence et câblage. Le détail, avec les photos de chaque pièce, est dans le <a href="docs/Rapport-Zobray.pdf">rapport complet</a>.</p>
-
+  </details>
 </main>
 <footer class="wrap narrow"><p><a href="index.html">← Tous les projets</a> · © 2026 Soméan Yoyotte · Tous droits réservés</p></footer>
 <script src="extras.js?v=9"></script>
