@@ -32,23 +32,37 @@
       repeating-linear-gradient(0deg, rgba(200,30,45,.5) 0 3px, transparent 3px 7px, rgba(0,130,70,.4) 7px 8px, transparent 8px 12px),
       #ffc42e; opacity: .85; }
   .yt { margin: 22px 0 8px; }
-  .yt-ecran { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: repeating-linear-gradient(45deg, #2a2a2a 0 14px, #262626 14px 28px); }
+  .yt-ecran { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; background: repeating-linear-gradient(45deg, #2a2a2a 0 14px, #262626 14px 28px); }
+  .yt-ecran:hover { transform: scale(1.025); box-shadow: 0 18px 40px rgba(0,0,0,.18); }
+  @media (prefers-reduced-motion: reduce) { .yt-ecran, .yt-ecran:hover { transform: none; } }
   .yt-ecran .rubans { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
   .yt-ecran .ruban { position: absolute; left: 50%; top: 50%; width: 160%; height: 22px; transform: translate(-50%,-50%) rotate(calc(var(--a, 30deg) * var(--s, 1))); background: repeating-linear-gradient(-45deg, #f5c400 0 14px, #111 14px 28px); box-shadow: 0 4px 12px rgba(0,0,0,.35); }
   .yt-ecran .ruban.r2 { --s: -1; }
   .yt-ecran .etat { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 1; font-size: 12.5px; color: rgba(255,255,255,.9); background: rgba(0,0,0,.55); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
   .yt h2.yt-titre { margin: 14px 0 10px; font-size: 22px; }
   .yt-barre { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .yt-chaine { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .yt-chaine { display: flex; align-items: center; gap: 10px; margin-right: auto; color: var(--fg); }
+  .yt-chaine:hover, .yt-chaine:hover * { text-decoration: none; }
+  .yt-chaine:hover .yt-nom { text-decoration: underline; }
   .yt-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--fg); color: var(--bg); display: grid; place-items: center; font-weight: 700; font-size: 17px; flex: none; }
-  .yt-nom { font-weight: 600; line-height: 1.2; }
-  .yt-abo { font-size: 13px; color: var(--muted); line-height: 1.2; }
+  .yt-txt { display: flex; flex-direction: column; justify-content: center; height: 40px; }
+  .yt-nom { font-weight: 600; line-height: 1.15; }
+  .yt-abo { font-size: 13px; color: var(--muted); line-height: 1.15; }
   .yt-actions { display: flex; gap: 8px; }
-  .yt-btn { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: 999px; background: var(--yt-btn); font-weight: 600; font-size: 14px; color: var(--fg); }
+  .yt-btn { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: 999px; background: var(--yt-btn); font-weight: 600; font-size: 14px; color: var(--fg); border: 0; font-family: inherit; cursor: pointer; position: relative; transition: background .15s ease; }
+  .yt-btn:hover { background: var(--yt-btn-h); }
   .yt-btn.rond { width: 36px; padding: 0; justify-content: center; }
   .yt-btn svg { width: 20px; height: 20px; }
-  :root { --yt-btn: #ececec; }
-  @media (prefers-color-scheme: dark) { :root { --yt-btn: #272727; } }
+  :root { --yt-btn: #ececec; --yt-btn-h: #e0e0e0; }
+  @media (prefers-color-scheme: dark) { :root { --yt-btn: #272727; --yt-btn-h: #3a3a3a; } }
+  .yt-btn.like svg path { transition: fill .2s ease; }
+  .yt-btn.like.on svg path { fill: currentColor; }
+  .yt-btn.like.pop svg { animation: pouce .55s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes pouce { 0% { transform: scale(1) rotate(0); } 35% { transform: scale(1.45) rotate(-18deg); } 70% { transform: scale(.9) rotate(4deg); } 100% { transform: scale(1) rotate(0); } }
+  .yt-btn .eclat { position: absolute; left: 24px; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; pointer-events: none; animation: eclat .6s ease-out forwards; }
+  @keyframes eclat { from { transform: translate(0,0) scale(1); opacity: 1; } to { transform: translate(var(--x), var(--y)) scale(.3); opacity: 0; } }
+  .yt-toast { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translate(-50%, 4px); white-space: nowrap; font-size: 13px; font-weight: 600; background: var(--fg); color: var(--bg); padding: 5px 10px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+  .yt-toast.vu { opacity: 1; transform: translate(-50%, 0); }
   @media (max-width: 520px) { .yt-actions { width: 100%; } .yt-btn.like { margin-right: auto; } }
   .timeline.etapes li { grid-template-columns: 1fr; padding-bottom: 14px; }
   .timeline.etapes li.fait::before { background: var(--fg); }
@@ -73,12 +87,12 @@
     <div class="yt-ecran"><div class="rubans" aria-hidden="true"><div class="ruban r1"></div><div class="ruban r2"></div></div><span class="etat">Vlog en cours de tournage</span></div>
     <h2 class="yt-titre">Je construis DUM-E pour moins de 100&nbsp;€</h2>
     <div class="yt-barre">
-      <div class="yt-chaine"><span class="yt-avatar" aria-hidden="true">S</span><span><span class="yt-nom">Soméan</span><br><span class="yt-abo">3 M d'abonnés</span></span></div>
-      <div class="yt-actions" aria-hidden="true">
-        <span class="yt-btn like"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 10v11H3V10h4zM7 10l4-8c1.7 0 2.8 1.3 2.4 3L12.6 9H19a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 17.6 21H7"/></svg>1,2 Md</span>
-        <span class="yt-btn rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 4l7 7-7 7v-4c-5 0-8 1.5-11 5 1-6 4-10 11-11V4z"/></svg></span>
-        <span class="yt-btn rond"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></span>
-        <span class="yt-btn rond"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span>
+      <a class="yt-chaine" href="https://www.youtube.com/@somean_yo" target="_blank" rel="noopener"><span class="yt-avatar" aria-hidden="true">S</span><span class="yt-txt"><span class="yt-nom">Soméan</span><span class="yt-abo">3M d'abonnés</span></span></a>
+      <div class="yt-actions">
+        <button class="yt-btn like" type="button" aria-pressed="false" aria-label="J'aime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 10v11H3V10h4zM7 10l4-8c1.7 0 2.8 1.3 2.4 3L12.6 9H19a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 17.6 21H7"/></svg>1,2 Md</button>
+        <button class="yt-btn rond partage" type="button" aria-label="Partager : copier le lien"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 4l7 7-7 7v-4c-5 0-8 1.5-11 5 1-6 4-10 11-11V4z"/></svg><span class="yt-toast" role="status">Lien copié !</span></button>
+        <span class="yt-btn rond" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></span>
+        <span class="yt-btn rond" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span>
       </div>
     </div>
   </section>
@@ -149,6 +163,32 @@
   const place = () => { const w = e.offsetWidth, h = e.offsetHeight; e.style.setProperty('--a', Math.atan2(h, w) + 'rad'); e.querySelectorAll('.ruban').forEach(r => { r.style.width = Math.hypot(w, h) + 80 + 'px'; }); };
   place(); addEventListener('resize', place);
   if ('ResizeObserver' in window) new ResizeObserver(place).observe(e);
+})();
+(function () {
+  const like = document.querySelector('.yt-btn.like');
+  if (like) like.addEventListener('click', () => {
+    const on = !like.classList.contains('on');
+    like.classList.toggle('on', on); like.setAttribute('aria-pressed', on);
+    like.classList.remove('pop'); void like.offsetWidth; like.classList.add('pop');
+    if (!on || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cols = ['#f5c400', '#c81e2d', '#00823f', '#0a7cff'];
+    for (let i = 0; i < 10; i++) {
+      const p = document.createElement('span'), a = Math.PI * 2 * i / 10, d = 22 + Math.random() * 14;
+      p.className = 'eclat'; p.style.background = cols[i % 4];
+      p.style.setProperty('--x', Math.cos(a) * d + 'px'); p.style.setProperty('--y', Math.sin(a) * d + 'px');
+      like.appendChild(p); setTimeout(() => p.remove(), 650);
+    }
+  });
+  const part = document.querySelector('.yt-btn.partage');
+  if (part) {
+    const toast = part.querySelector('.yt-toast'); let t = 0;
+    part.addEventListener('click', async () => {
+      const url = location.href.split('#')[0];
+      try { await navigator.clipboard.writeText(url); }
+      catch (e) { const x = document.createElement('textarea'); x.value = url; document.body.appendChild(x); x.select(); try { document.execCommand('copy'); } catch (_) {} x.remove(); }
+      toast.classList.add('vu'); clearTimeout(t); t = setTimeout(() => toast.classList.remove('vu'), 1600);
+    });
+  }
 })();
 </script>
 <script src="extras.js?v=9"></script>
