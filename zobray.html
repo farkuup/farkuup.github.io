@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="extras.css?v=6">
 <style>
   .rapport { display: flex; align-items: center; gap: 16px; margin: 28px 0 8px; padding: 16px 18px; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 14px; transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
+  .rapport, .rapport:hover { text-decoration: none; }
   .rapport:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,.08); border-color: var(--fg); }
   .rapport svg { width: 34px; height: 34px; flex: none; color: var(--fg); }
   .rapport .t { display: block; font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
@@ -24,8 +25,13 @@
   details.amelio summary::before { content: "▼"; font-size: 11px; transition: transform .2s ease; }
   details.amelio[open] summary::before { transform: rotate(180deg); }
   details.amelio summary:hover { border-color: var(--fg); }
+  .madras { position: relative; isolation: isolate; white-space: nowrap; }
+  .madras::before { content: ""; position: absolute; z-index: -1; left: -.12em; right: -.12em; bottom: .02em; height: .62em; border-radius: 2px; transform: rotate(-1.2deg);
+    background:
+      repeating-linear-gradient(90deg, rgba(200,30,45,.5) 0 4px, transparent 4px 11px, rgba(0,130,70,.4) 11px 13px, transparent 13px 22px),
+      repeating-linear-gradient(0deg, rgba(200,30,45,.5) 0 3px, transparent 3px 7px, rgba(0,130,70,.4) 7px 8px, transparent 8px 12px),
+      #ffc42e; opacity: .85; }
   h3 { font-size: 18px; margin: 26px 0 6px; letter-spacing: -.01em; }
-  tr.retenu td { font-weight: 600; color: var(--fg) !important; background: color-mix(in srgb, var(--accent) 8%, transparent); }
   .math { text-align: center; margin: 18px 0; font-size: 20px; }
   .math math { font-size: 1.15em; }
 </style>
@@ -35,10 +41,10 @@
   <a class="back" href="index.html">← Tous les projets</a>
   <p class="kicker">Projet perso · 2026 · En cours</p>
   <h1><i>Zobray</i></h1>
-  <p class="lead">Un bras robotique de bureau à 6 axes, inspiré de DUM-E, le bras qui assiste Tony Stark dans <i>Iron Man</i>. Son nom vient du créole : « squelette ».</p>
-  <ul class="tags big"><li>ESP32</li><li>PCA9685</li><li>Servomoteurs</li><li>Impression 3D</li><li>Calcul de couple</li></ul>
+  <p class="lead">Un bras robotique de bureau à 6 axes, inspiré de DUM-E, le bras qui assiste Tony Stark dans <i>Iron Man</i>. Son nom vient du <span class="madras">créole</span> : « squelette ».</p>
+  <ul class="tags big"><li>ESP32</li><li>Servomoteurs</li><li>Impression 3D</li><li>Calcul de couple</li></ul>
 
-  <a class="rapport" href="docs/Rapport-Zobray.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 1h8.6L20 6.2v15.3a1.5 1.5 0 0 1-1.5 1.5H6.2a1.5 1.5 0 0 1-1.5-1.5v-19A1.5 1.5 0 0 1 6.2 1z"/><path d="M14.6 1.2v4.3a.8.8 0 0 0 .8.8h4.4M8 11h8.6M8 14.6h8.6M8 18.2h5.6" fill="none" stroke="var(--card)" stroke-width="1.4" stroke-linecap="round"/></svg><span><span class="t">Lien vers le rapport complet</span><span class="s">PDF · 6 pages · cahier des charges, calculs, achats</span></span><span class="go" aria-hidden="true">→</span></a>
+  <a class="rapport" href="docs/Rapport-Zobray.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.2 1h8.6L20 6.2v15.3a1.5 1.5 0 0 1-1.5 1.5H6.2a1.5 1.5 0 0 1-1.5-1.5v-19A1.5 1.5 0 0 1 6.2 1z"/><path d="M14.6 1.2v4.3a.8.8 0 0 0 .8.8h4.4M8 11h8.6M8 14.6h8.6M8 18.2h5.6" fill="none" stroke="var(--card)" stroke-width="1.4" stroke-linecap="round"/></svg><span><span class="t">Lien vers le rapport complet</span><span class="s">PDF · 6 pages</span></span><span class="go" aria-hidden="true">→</span></a>
 
   <h2>L'idée</h2>
   <p>Dans la fiction, DUM-E réagit, prend des initiatives et aide Stark dans ses créations. Les estimations de son coût tournent autour de 150 000 € : je veux en faire une version réduite et abordable.</p>
@@ -78,17 +84,7 @@
   <h3>Servomoteurs</h3>
   <p>Une canette pèse environ 350 g ; avec la pince, j'arrondis à 0,5 kg. Bras tendu à 22 cm, l'épaule doit tenir un couple d'environ :</p>
   <p class="math"><math display="block"><mi>C</mi><mo>=</mo><mi>m</mi><mo>·</mo><mi>L</mi><mo>=</mo><mn>0,5</mn><mtext>&#8239;kg</mtext><mo>×</mo><mn>22</mn><mtext>&#8239;cm</mtext><mo>≈</mo><mn>11</mn><mtext>&#8239;kg·cm</mtext></math></p>
-  <p>Je double cette valeur pour garder de la marge, puis je compare les modèles :</p>
-  <div class="scroll"><table>
-      <tr><th>Servos</th><th>Couple</th><th>Masse</th><th>Prix</th><th>Remarques</th></tr>
-      <tr><td>MG995</td><td>9–10 kg·cm</td><td>55 g</td><td>3 €</td><td>valeur de couple trop juste</td></tr>
-      <tr class="retenu"><td>MG996R</td><td>10–11 kg·cm</td><td>55 g</td><td>3,3 €</td><td>qualité variables</td></tr>
-      <tr><td>MG946R</td><td>10–13 kg·cm</td><td>55 g</td><td>8-10 €</td><td>roulement à billes</td></tr>
-      <tr><td>DS3218</td><td>20 kg·cm</td><td>60 g</td><td>12-15 €</td><td></td></tr>
-      <tr class="retenu"><td>DS3225</td><td>25 kg·cm</td><td>60 g</td><td>14-18 €</td><td>+de marge mais + cher</td></tr>
-      <tr><td>STS3215</td><td>20 kg·cm</td><td>55 g</td><td>15-20 €</td><td>retour de position mais il faut un contrôleur à part</td></tr>
-  </table></div>
-  <p>J'ai retenu un <b>DS3225</b> (25 kg·cm) pour l'épaule et des <b>MG996R</b> pour les autres articulations.</p>
+  <p>Je double cette valeur pour garder de la marge. Pour l'épaule, qui porte tout le bras, j'ai retenu un <b>DS3225</b> : 25 kg·cm, soit plus de deux fois le besoin, pour 14 à 18 €. Pour les autres articulations, moins chargées, des <b>MG996R</b> (10 à 11 kg·cm) suffisent : ce sont les moins chers (3,3 €), et j'en prends un de rechange car leur qualité est variable.</p>
 
   <h3>Cerveau</h3>
   <p>Le bras est piloté par un <b>ESP32</b> : Wi-Fi et Bluetooth intégrés, plus de puissance qu'un Arduino Uno, et un prix de quelques euros. Il passe par un driver <b>PCA9685</b>, qui génère les signaux des six servos pendant que l'ESP32 gère le Wi-Fi. Cela évite les tremblements, réduit le nombre de fils et laisse 16 ports pour ajouter des axes plus tard.</p>
